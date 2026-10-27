@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz · Ímã das Palavras · Português 9º</title>
+<style>
+  :root{--fundo:#11131a;--fundo2:#1a1d27;--borda:#2b3242;--borda2:#3e475c;--ouro:#ffd23f;--azul:#4aa8ff;--verm:#ff5a4f;--verde:#3ddc84;--vermelho:#ff5a4f;--texto:#e3e8ef;--cinza:#9aa6b6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Trebuchet MS','Segoe UI',system-ui,Arial,sans-serif;font-size:17px;background:repeating-radial-gradient(ellipse at 50% -20%,rgba(255,210,63,.045) 0 1px,transparent 1px 22px),radial-gradient(900px 420px at 15% -10%,rgba(255,90,79,.18),transparent 60%),radial-gradient(900px 420px at 85% -10%,rgba(74,168,255,.18),transparent 60%),var(--fundo);color:var(--texto);line-height:1.6;padding-bottom:60px}
+  header{background:linear-gradient(120deg,#4a1814,#2a2410 50%,#0f2c4a);padding:26px 18px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.5);border-bottom:4px solid var(--ouro)}
+  header .selo{font-family:Consolas,monospace;font-size:.78rem;letter-spacing:3px;color:#ffe9a8;text-transform:uppercase}
+  header h1{font-size:1.5rem;margin:6px 0 2px}
+  header p{color:#e6e0cf;font-size:.92rem}
+  .wrap{max-width:820px;margin:0 auto;padding:16px}
+  .barra-nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+  .barra-nav a{background:var(--fundo2);color:var(--texto);text-decoration:none;padding:7px 12px;border-radius:20px;font-size:.85rem;border:1px solid var(--borda)}
+  .barra-nav a.on{background:var(--ouro);color:#2b2200;font-weight:bold}
+  .barra-nav a.lock{opacity:.5}
+  .intro{background:var(--fundo2);border:1px solid var(--borda);border-radius:14px;padding:16px;margin-bottom:16px}
+  .intro h2{color:var(--ouro);font-size:1.1rem;margin-bottom:8px}
+  .painel{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;background:var(--fundo2);border:1px solid var(--borda);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:.85rem}
+  .painel .btns{display:flex;gap:6px;flex-wrap:wrap}
+  button{cursor:pointer;font-family:inherit}
+  .mini{background:var(--fundo);color:var(--texto);border:1px solid var(--borda2);border-radius:8px;padding:6px 10px;font-size:.8rem}
+  .codigo{background:linear-gradient(120deg,#0f2a1c,#1b4d33);border:2px solid var(--verde);border-radius:14px;padding:16px;text-align:center;margin-bottom:16px;display:none;position:sticky;top:0;z-index:5}
+  .codigo.show{display:block}
+  .codigo .cod{font-family:Consolas,'Courier New',monospace;font-size:1.8rem;font-weight:bold;letter-spacing:3px;color:#9be8bd;margin:6px 0}
+  .progresso{height:10px;background:var(--borda);border-radius:6px;overflow:hidden;margin-bottom:16px}
+  .progresso div{height:100%;background:linear-gradient(90deg,var(--verm),var(--ouro),var(--azul));width:0;transition:width .3s}
+  .q{background:var(--fundo2);border:1px solid var(--borda);border-radius:16px;padding:16px;margin-bottom:14px}
+  .q .num{font-family:Consolas,monospace;color:var(--ouro);font-weight:bold;font-size:.8rem;letter-spacing:1px;text-transform:uppercase}
+  .q .tema{float:right;font-size:.7rem;color:var(--cinza);background:var(--fundo);border:1px solid var(--borda2);border-radius:10px;padding:2px 8px}
+  .q h3{font-size:1.02rem;margin:6px 0 10px;font-weight:600}
+  .alt{display:block;background:#141722;border:1px solid var(--borda2);border-radius:10px;padding:10px 12px;margin:6px 0;cursor:pointer}
+  .alt:hover{border-color:var(--ouro)}
+  .alt input{margin-right:8px}
+  .alt.sel{border-color:var(--ouro);background:#2e2810}
+  .alt.certa{border-color:var(--verde);background:#0e2b1e}
+  .alt.errada{border-color:#5a5a5a;background:#1d1f26;color:#aaa}
+  .alt.marcada-errada{border-color:var(--vermelho);background:#3a1414}
+  .exp{margin-top:8px;font-size:.88rem;padding:8px 10px;border-radius:8px;background:#141722;border-left:3px solid var(--ouro);display:none}
+  .exp.show{display:block}
+  .enviar{width:100%;background:var(--ouro);color:#2b2200;border:none;border-radius:12px;padding:14px;font-size:1.05rem;font-weight:bold;margin:10px 0}
+  .enviar:disabled{background:#262b3a;color:#7d8798;cursor:not-allowed}
+  .gab{background:var(--fundo2);border:1px dashed var(--ouro);border-radius:14px;padding:16px;margin:16px 0;display:none}
+  .gab.show{display:block}
+  .gab input{padding:9px;border-radius:8px;border:1px solid var(--borda2);background:#0c0e14;color:var(--texto);font-size:1rem;width:180px;text-transform:uppercase}
+  .gab button{background:var(--ouro);color:#2b2200;border:none;border-radius:8px;padding:9px 14px;font-weight:bold;margin-left:6px}
+  .gab .msg{margin-top:8px;font-size:.9rem}
+  .trilha-fim{background:linear-gradient(120deg,#0f2a1c,#13392a);border:2px solid var(--verde);border-radius:16px;padding:18px;margin-top:18px;text-align:center}
+  .trilha-fim h3{color:#9be8bd;margin-bottom:8px}
+  .trilha-fim a.btn{display:inline-block;margin-top:8px;background:var(--verde);color:#04210f;text-decoration:none;font-weight:bold;padding:11px 20px;border-radius:10px}
+  .trilha-fim a.btn.off{background:#262b3a;color:#7d8798;pointer-events:none}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,11,16,.97);z-index:50;align-items:center;justify-content:center;padding:16px}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--fundo2);border:1px solid var(--ouro);border-radius:14px;padding:22px;max-width:440px;text-align:center}
+  .modal p{margin-bottom:14px}
+  .modal .big{font-size:2.2rem}
+  .modal a,.modal button{display:inline-block;background:var(--ouro);color:#2b2200;border:none;border-radius:8px;padding:10px 18px;font-weight:bold;text-decoration:none}
+  .rodape{text-align:center;color:var(--cinza);font-size:.8rem;margin-top:24px}
+</style>
+</head>
+<body>
+<header>
+  <div class="selo">Ímã das Palavras · Português 9º ano · CCF</div>
+  <h1>🎯 Quiz — Teste de Atração</h1>
+  <p>18 questões · Regência verbal e nominal · Crase · Código MED para os pais</p>
+</header>
+
+<div class="wrap">
+  <nav class="barra-nav" id="nav">
+    <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+    <a class="on" href="quiz.html">🎯 Quiz</a>
+    <a href="resumo.html" data-etapa="resumo">🗺️ Resumo</a>
+    <a href="simulado.html" data-etapa="simulado">📝 Simulado</a>
+    <a href="index.html">🏠 Início</a>
+  </nav>
+
+  <div class="codigo" id="codigo"><div>Seu código de liberação</div><div class="cod" id="cod"></div><div id="codtxt"></div></div>
+
+  <div class="intro">
+    <h2>🧲 Teste de Atração: será que os seus ímãs grudam?</h2>
+    <p>Hora de ver se cada regente encontra o seu regido. Responda as <b>18 questões</b> (todas obrigatórias). Depois de <b>Enviar</b>, as respostas travam, sai o seu <b>código MED</b> e o gabarito comentado abre com o código. Ao enviar, o <b>🗺️ Resumo destrava</b>.</p>
+  </div>
+
+  <div class="painel">
+    <span id="salvo">💾 Progresso salvo automaticamente.</span>
+    <div class="btns">
+      <button class="mini" onclick="exportar()">📥 Exportar</button>
+      <button class="mini" onclick="document.getElementById('imp').click()">📤 Importar</button>
+      <input type="file" id="imp" accept="application/json" style="display:none" onchange="importar(event)">
+      <button class="mini" onclick="pedirZerar()">🗑️ Zerar tudo</button>
+    </div>
+  </div>
+
+  <div class="progresso"><div id="barra"></div></div>
+  <div id="questoes"></div>
+  <button class="enviar" id="btn-enviar" onclick="enviar()" disabled>📨 Enviar respostas (responda todas)</button>
+
+  <div class="gab" id="gab">
+    <b>🔑 Gabarito comentado:</b> digite o código MED que apareceu no topo.<br>
+    <input id="gab-in" placeholder="MED-XX-YY"><button onclick="abrirGab()">Ver gabarito</button>
+    <div class="msg" id="gab-msg"></div>
+  </div>
+
+  <div class="trilha-fim" id="trilha-fim">
+    <h3>🔒 Próxima etapa: Resumo</h3>
+    <p id="trilha-fim-txt">O Resumo destrava quando você enviar o Quiz.</p>
+    <a class="btn off" id="btn-prox" href="resumo.html">🗺️ Ir para o Resumo</a>
+  </div>
+
+  <div class="rodape">Feito com carinho para o jovem aprendiz. 🧲</div>
+</div>
+
+<div class="modal-bg" id="lock">
+  <div class="modal">
+    <div class="big">🔒</div>
+    <p><b>Esta etapa ainda está trancada.</b></p>
+    <p id="lock-txt">Para abrir o Quiz, conclua a Leitura Guiada.</p>
+    <a href="index.html">Voltar ao início</a>
+  </div>
+</div>
+<div class="modal-bg" id="modal" style="background:rgba(0,0,0,.75)">
+  <div class="modal">
+    <p id="modal-txt"></p>
+    <button onclick="fecharModal()" id="modal-ok">Ok</button>
+    <button class="mini" onclick="fecharModal()" id="modal-cancel" style="display:none;margin-left:8px">Cancelar</button>
+  </div>
+</div>
+
+<script>
+/* ====== TRILHA COM CADEADOS (módulo comum do kit) ====== */
+var KIT='ima_palavras_port9';
+var TRILHA=[
+ {id:'leitura', chave:KIT+'_leitura_v1', nome:'Leitura Guiada', arquivo:'leitura-guiada.html', emoji:'📖'},
+ {id:'quiz', chave:KIT+'_quiz_v1', nome:'Quiz', arquivo:'quiz.html', emoji:'🎯'},
+ {id:'resumo', chave:KIT+'_resumo_v1', nome:'Resumo', arquivo:'resumo.html', emoji:'🗺️'},
+ {id:'simulado', chave:KIT+'_simulado_v1', nome:'Simulado', arquivo:'simulado.html', emoji:'📝'}
+];
+function lerJSON(k){ try{ var s=localStorage.getItem(k); return s?JSON.parse(s):null; }catch(e){ return null; } }
+function trilhaLiberada(){ var t=lerJSON(KIT+'_trilha_v1'); return !!(t&&t.liberadoPelosPais); }
+function etapaConcluida(id){ var e=TRILHA.filter(function(t){return t.id===id;})[0]; var d=lerJSON(e.chave); return !!(d&&d.concluido); }
+function podeAbrir(id){ var idx=TRILHA.map(function(t){return t.id;}).indexOf(id); if(idx<=0||trilhaLiberada()) return true; return etapaConcluida(TRILHA[idx-1].id); }
+function marcarNav(){
+  var links=document.querySelectorAll('#nav a[data-etapa]');
+  for(var i=0;i<links.length;i++){ var id=links[i].getAttribute('data-etapa'); if(!podeAbrir(id)){ links[i].classList.add('lock'); links[i].textContent='🔒 '+links[i].textContent.replace('🔒 ',''); links[i].setAttribute('title','Ainda trancado'); } else { links[i].classList.remove('lock'); links[i].textContent=links[i].textContent.replace('🔒 ',''); links[i].removeAttribute('title'); } }
+}
+
+function checarTrava(){
+  if(podeAbrir('quiz')) return true;
+  var L=lerJSON(KIT+'_leitura_v1'); var p=(L&&L.progresso)||{conferidos:0,total:10,chkPendentes:0};
+  var faltam=p.total-p.conferidos;
+  var txt= faltam>0 ? 'Para abrir o Quiz, conclua a Leitura Guiada: faltam '+faltam+' de '+p.total+' ímãs.' : 'Para abrir o Quiz, responda a autoavaliação Sim/Não da Leitura Guiada ('+p.chkPendentes+' ponto(s) pendente(s)).';
+  document.getElementById('lock-txt').textContent=txt;
+  document.getElementById('lock').classList.add('show');
+  document.querySelector('.wrap').style.filter='blur(8px)';
+  document.querySelector('.wrap').setAttribute('aria-hidden','true');
+  return false;
+}
+
+/* ====== QUESTÕES (conteúdo do livro Callis Língua Portuguesa 9 – L2, Caps. 21 a 24) — a correta é guardada pelo id ====== */
+var Q=[
+ {tema:"Cap. 21 · Regência",p:"Na frase “Os meninos tinham medo de tanta mudança em seu mundo”, o termo regente e o termo regido são, respectivamente:",alts:[
+  {id:"a",t:"“medo” e “de tanta mudança em seu mundo”.",ok:true,e:"“Medo” é o substantivo que pede complemento (medo de quê?); “de tanta mudança em seu mundo” completa o seu sentido. É o exemplo do livro."},
+  {id:"b",t:"“meninos” e “medo”.",e:"“Meninos” é o sujeito; não é ele que pede o complemento “de tanta mudança”."},
+  {id:"c",t:"“tinham” e “meninos”.",e:"“Meninos” é o sujeito de “tinham”, não um termo regido."},
+  {id:"d",t:"“mundo” e “mudança”.",e:"A ordem está trocada e não é “mundo” que pede complemento: o regente é “medo”."}]},
+ {tema:"Cap. 21 · Regência nominal",p:"Segundo o livro, quando um nome precisa de complemento para ter sentido completo, a relação entre o nome e esse complemento é sempre mediada por:",alts:[
+  {id:"a",t:"um artigo definido.",e:"O artigo acompanha substantivos, mas não é o que liga o nome ao seu complemento."},
+  {id:"b",t:"uma conjunção.",e:"Conjunções ligam orações ou termos coordenados, não o nome ao seu complemento."},
+  {id:"c",t:"uma preposição.",ok:true,e:"O livro diz que a relação do nome com o seu complemento é sempre mediada por uma preposição (medo DE, obediência A, apto A…)."},
+  {id:"d",t:"um pronome oblíquo.",e:"Pronomes oblíquos podem funcionar como objetos de verbos, mas não ligam um nome ao seu complemento."}]},
+ {tema:"Cap. 21 · Sentido da preposição (Enem)",p:"Numa questão do Enem trazida pelo livro, a crônica afirma: “não existem meninos De rua. Existem meninos NA rua”. A troca de “de” por “na” faz a relação entre “menino” e “rua” ser:",alts:[
+  {id:"a",t:"de origem e não de posse.",e:"A crônica não fala de onde o menino veio nem de quem é a rua."},
+  {id:"b",t:"de localização e não de qualidade.",ok:true,e:"“Menino de rua” funciona como rótulo, uma qualidade atribuída ao menino; “menino na rua” indica apenas onde ele está."},
+  {id:"c",t:"de posse e não de localização.",e:"É o contrário: “na rua” passa a indicar justamente a localização."},
+  {id:"d",t:"de origem e não de localização.",e:"“Na rua” indica localização; a troca não cria ideia de origem."}]},
+ {tema:"Cap. 22 · Transitividade",p:"Em “Muitas pessoas já esperam por mudanças”, o verbo “esperar” é:",alts:[
+  {id:"a",t:"intransitivo, pois não tem complemento.",e:"Tem complemento: esperam pelo quê? “por mudanças”."},
+  {id:"b",t:"transitivo direto, com objeto direto “mudanças”.",e:"O complemento vem com preposição (“por”), então não é objeto direto."},
+  {id:"c",t:"transitivo direto e indireto, com dois complementos.",e:"Há só um complemento na frase."},
+  {id:"d",t:"transitivo indireto, com o objeto indireto “por mudanças”.",ok:true,e:"É o exemplo do livro: o verbo pede complemento com preposição (esperam pelo quê?)."}]},
+ {tema:"Cap. 22 · Bitransitivo",p:"Em “Existe terra para dar a cada homem seu próprio paraíso”, o verbo “dar” é bitransitivo porque:",alts:[
+  {id:"a",t:"tem dois sujeitos.",e:"Transitividade fala de complementos, não de sujeitos."},
+  {id:"b",t:"pede um complemento sem preposição (“seu próprio paraíso”) e outro com preposição (“a cada homem”).",ok:true,e:"Dar o quê? “seu próprio paraíso” (objeto direto). A quem? “a cada homem” (objeto indireto)."},
+  {id:"c",t:"pede dois complementos com preposição.",e:"Um dos complementos (“seu próprio paraíso”) vem sem preposição."},
+  {id:"d",t:"vem acompanhado de um pronome oblíquo.",e:"Isso caracterizaria um verbo pronominal, não um bitransitivo."}]},
+ {tema:"Cap. 21 · Assistir",p:"“Na ficção, a garota assistia à destruição de seu planeta.” Nessa frase, o verbo “assistir” tem o sentido de:",alts:[
+  {id:"a",t:"presenciar, observar.",ok:true,e:"Como transitivo indireto (assistia a quê?), “assistir” significa presenciar, observar."},
+  {id:"b",t:"socorrer, ajudar.",e:"Esse é o sentido do “assistir” transitivo direto, sem preposição (“assistia seu planeta”)."},
+  {id:"c",t:"morar, residir.",e:"Esse é o sentido de “assistir em” (intransitivo + adjunto adverbial)."},
+  {id:"d",t:"mirar, apontar.",e:"Mirar é um sentido do verbo “visar”, não de “assistir”."}]},
+ {tema:"Cap. 22 · Visar",p:"No balão “Visando ao bem de todos, vamos manter a paz!”, o verbo “visar” significa:",alts:[
+  {id:"a",t:"mirar, apontar uma arma.",e:"Esse é o sentido do “visar” transitivo direto, sem preposição (“Visou o planeta”)."},
+  {id:"b",t:"assinar um documento.",e:"Esse sentido não é estudado no livro e não combina com a frase."},
+  {id:"c",t:"objetivar, ter como meta.",ok:true,e:"Com preposição (visar a), o verbo é transitivo indireto e significa ter como objetivo."},
+  {id:"d",t:"presenciar, ver.",e:"Presenciar é o sentido de “assistir a”."}]},
+ {tema:"Caps. 21 e 22 · Chegar",p:"De acordo com a norma-padrão estudada no livro, qual frase usa corretamente a regência do verbo “chegar”?",alts:[
+  {id:"a",t:"Cheguei em casa mais cedo do que o costume.",e:"“Chegar em” é uso informal; a norma-padrão pede “chegar a”."},
+  {id:"b",t:"Ainda não cheguei nessa página do livro.",e:"“nessa” = em + essa: uso informal. Na norma-padrão: chegar a essa página."},
+  {id:"c",t:"Não cheguei nem no meio do caminho.",e:"“no” = em + o: uso informal. Na norma-padrão: chegar ao meio."},
+  {id:"d",t:"O meteorito chegou à Terra às 9h46.",ok:true,e:"“Chegar”, transitivo indireto, rege a preposição “a” (a + a Terra = à Terra)."}]},
+ {tema:"Cap. 22 · Preferir",p:"Qual frase segue a norma-padrão para o verbo “preferir”?",alts:[
+  {id:"a",t:"Prefiro ler ficção científica a romances.",ok:true,e:"“Preferir” é transitivo direto e indireto e rege “a”: prefere-se uma coisa A outra."},
+  {id:"b",t:"Prefiro ler ficção científica do que romances.",e:"O uso com “do que” é informal; a norma-padrão pede a preposição “a”."},
+  {id:"c",t:"Prefiro ler ficção científica que romances.",e:"Falta a preposição “a”, exigida por “preferir”."},
+  {id:"d",t:"Prefiro ler ficção científica com romances.",e:"“Com” não é a preposição regida por “preferir” e muda o sentido da frase."}]},
+ {tema:"Cap. 22 · Lembrar/esquecer",p:"Segundo a regra do livro para “lembrar” e “esquecer” (com pronome, use preposição; sem pronome, sem preposição), qual frase está correta?",alts:[
+  {id:"a",t:"Só lembrei do nosso combinado hoje!",e:"Sem pronome não se usa preposição: “Só lembrei o nosso combinado” — ou, com pronome, “Só me lembrei do nosso combinado”."},
+  {id:"b",t:"Ninguém se lembrou do viajante que passou por aqui.",ok:true,e:"Há o pronome “se”, então entra a preposição “de” (do viajante)."},
+  {id:"c",t:"Você se esqueceu seu sonho?",e:"Com o pronome “se”, falta a preposição: “Você se esqueceu do seu sonho?”."},
+  {id:"d",t:"A moça esqueceu do sonho de viajar pelo espaço.",e:"Sem pronome, não há preposição: “A moça esqueceu o sonho…”."}]},
+ {tema:"Cap. 23 · Complemento nominal",p:"Em “Os robôs devem obediência aos homens”, a expressão “aos homens” é:",alts:[
+  {id:"a",t:"objeto direto do verbo “devem”.",e:"“Aos homens” tem preposição e completa o nome “obediência”, não o verbo."},
+  {id:"b",t:"adjunto adverbial de lugar.",e:"Não indica lugar; completa o sentido de “obediência” (obediência a quem?)."},
+  {id:"c",t:"complemento nominal do substantivo “obediência”, com a mesma preposição do verbo “obedecer”.",ok:true,e:"O livro mostra: obedecer A, obediência A, obediente A — o nome copia a regência do verbo de que deriva."},
+  {id:"d",t:"sujeito da oração.",e:"O sujeito é “Os robôs”."}]},
+ {tema:"Cap. 23 · CN × adjunto",p:"O livro compara “Respeito ao robô” e “Respeito do robô”. Qual alternativa explica corretamente a diferença?",alts:[
+  {id:"a",t:"Nas duas, “robô” é complemento nominal.",e:"Só em “respeito ao robô” o termo é complemento nominal."},
+  {id:"b",t:"Em “ao robô”, o robô é o alvo (complemento nominal); em “do robô”, o robô é o agente (adjunto adnominal).",ok:true,e:"Alvo da ação = complemento nominal; agente da ação = adjunto adnominal."},
+  {id:"c",t:"Em “ao robô”, o robô é o agente; em “do robô”, o robô é o alvo.",e:"Está invertido: em “ao robô” ele recebe o respeito (alvo)."},
+  {id:"d",t:"As duas expressões têm exatamente o mesmo sentido.",e:"A preposição muda quem respeita e quem é respeitado."}]},
+ {tema:"Cap. 23 · Oração completiva nominal",p:"Em “O robô tinha certeza de que deveria obedecer”, o trecho “de que deveria obedecer” é:",alts:[
+  {id:"a",t:"um adjunto adverbial de causa.",e:"O trecho não indica causa; completa o sentido do nome “certeza”."},
+  {id:"b",t:"o objeto direto do verbo “tinha”.",e:"O objeto direto de “tinha” é “certeza”; o trecho completa esse nome."},
+  {id:"c",t:"uma oração subordinada substantiva completiva nominal, introduzida pela preposição exigida pelo nome “certeza”.",ok:true,e:"É o exemplo do livro: o complemento nominal vem em forma de oração, e a preposição fica antes dela."},
+  {id:"d",t:"um adjunto adnominal que indica quem tem a certeza.",e:"Quem tem a certeza é “o robô”; o trecho diz do que ele tem certeza."}]},
+ {tema:"Cap. 24 · Crase",p:"Segundo o livro, a crase é:",alts:[
+  {id:"a",t:"a fusão da preposição “a” com outro “a” (artigo ou pronome demonstrativo), sinalizada pelo acento grave.",ok:true,e:"Esse é o princípio básico da crase apresentado no capítulo 24."},
+  {id:"b",t:"o nome do acento agudo colocado sobre o “a”.",e:"O acento que sinaliza a crase é o grave (à), e crase é o nome da fusão, não do acento."},
+  {id:"c",t:"a junção de dois artigos femininos.",e:"É a junção da PREPOSIÇÃO “a” com o artigo “a” (ou aquele/aquela/aquilo)."},
+  {id:"d",t:"a troca do artigo “o” pelo artigo “a” diante de palavras femininas.",e:"Isso não tem relação com crase."}]},
+ {tema:"Cap. 24 · Sem crase",p:"Por que NÃO há crase em “Admiro a imaginação dos autores de ficção científica”?",alts:[
+  {id:"a",t:"Porque “imaginação” é palavra masculina.",e:"“Imaginação” é feminina; o motivo é outro."},
+  {id:"b",t:"Porque antes de substantivos nunca há crase.",e:"Há crase antes de substantivos femininos quando o termo regente pede “a” (deve-se à imaginação)."},
+  {id:"c",t:"Porque o verbo “admirar” não rege preposição: só existe o artigo “a”.",ok:true,e:"Admiro O QUÊ, e não A QUÊ. Sem a preposição, não há fusão."},
+  {id:"d",t:"Porque a crase é sempre opcional.",e:"A crase só é opcional em alguns casos (possessivos e nomes próprios femininos)."}]},
+ {tema:"Cap. 24 · Sem crase",p:"Em “Começou a imaginar como seria o futuro”, não há crase porque o “a” está:",alts:[
+  {id:"a",t:"entre palavras repetidas.",e:"Esse é outro caso (cara a cara)."},
+  {id:"b",t:"antes de nome próprio feminino.",e:"Antes de nome próprio feminino a crase é opcional — e “imaginar” não é nome próprio."},
+  {id:"c",t:"antes de palavra de sentido genérico.",e:"Esse é o caso de “Refiro-me a pessoas sonhadoras”."},
+  {id:"d",t:"antes de um verbo.",ok:true,e:"Antes de verbos não há artigo, então não há crase."}]},
+ {tema:"Cap. 24 · Macete",p:"Aplicando o macete do masculino a “Fui à exposição apreciar os originais das obras”, conclui-se que:",alts:[
+  {id:"a",t:"há crase, porque no masculino fica “Fui ao evento” (aparece “ao”).",ok:true,e:"Se na troca aparece “ao”, há preposição + artigo: use o acento."},
+  {id:"b",t:"não há crase, porque no masculino fica “Fui o evento”.",e:"No masculino fica “Fui ao evento”, com “ao”."},
+  {id:"c",t:"a crase é opcional, porque “exposição” é feminina.",e:"Ser feminina não torna a crase opcional; o teste mostrou preposição + artigo."},
+  {id:"d",t:"não há crase, porque “ir” é verbo intransitivo.",e:"O teste mostrou a preposição “a” (ao evento), então há crase."}]},
+ {tema:"Cap. 24 · Crase opcional",p:"Sobre “Agradeça a sua mãe” e “Agradeça à sua mãe”, é correto afirmar que:",alts:[
+  {id:"a",t:"só a primeira está correta, porque antes de possessivo nunca há crase.",e:"Diante de possessivo com substantivo feminino, a crase é opcional."},
+  {id:"b",t:"só a segunda está correta, porque “mãe” é feminina.",e:"As duas estão corretas: o artigo é opcional antes do possessivo."},
+  {id:"c",t:"as duas estão corretas: diante de pronome possessivo com substantivo feminino, o artigo — e a crase — é opcional.",ok:true,e:"Na 1ª há só a preposição; na 2ª, preposição + artigo."},
+  {id:"d",t:"nenhuma está correta, porque “agradecer” não pede preposição.",e:"O livro usa justamente esse exemplo para mostrar a crase opcional."}]}
+];
+
+
+/* ====== EMBARALHAMENTO COM SEMENTE FIXA (mulberry32) ====== */
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+var rnd=mulberry32(291026361);
+Q.forEach(function(q){ var arr=q.alts.slice(); for(var i=arr.length-1;i>0;i--){ var j=Math.floor(rnd()*(i+1)); var tmp=arr[i]; arr[i]=arr[j]; arr[j]=tmp; } q.ordem=arr; });
+
+/* ====== ESTADO ====== */
+var CHAVE=KIT+'_quiz_v1'; var mem={}; var estado=carregar();
+function carregar(){ try{ var s=localStorage.getItem(CHAVE); if(s) return JSON.parse(s);}catch(e){ if(mem[CHAVE]) return JSON.parse(mem[CHAVE]); } return {resp:{},enviado:false}; }
+function salvar(){ var s=JSON.stringify(estado); try{ localStorage.setItem(CHAVE,s);}catch(e){ mem[CHAVE]=s; } var d=new Date(); document.getElementById('salvo').textContent='💾 Salvo às '+d.toLocaleTimeString('pt-BR')+' de '+d.toLocaleDateString('pt-BR'); }
+var LETRAS='ABCDEFGHJKLMNPQRSTUVWXYZ';
+function gerarCodigo(ac){ var xx=(ac<10?'0':'')+ac; var yy=LETRAS[Math.floor(Math.random()*LETRAS.length)]+LETRAS[Math.floor(Math.random()*LETRAS.length)]; return 'MED-'+xx+'-'+yy; }
+
+function render(){
+  var c=document.getElementById('questoes'); var h='';
+  Q.forEach(function(q,i){
+    h+='<div class="q" id="q'+i+'"><span class="tema">'+q.tema+'</span><div class="num">Questão '+(i+1)+' de '+Q.length+'</div><h3>'+q.p+'</h3>';
+    q.ordem.forEach(function(a,k){
+      var letra='abcd'[k]; var sel=estado.resp[i]===a.id;
+      var cls='alt'+(sel?' sel':'');
+      if(estado.gabarito){ if(a.ok) cls+=' certa'; else if(sel) cls+=' marcada-errada'; else cls+=' errada'; }
+      h+='<label class="'+cls+'"><input type="radio" name="q'+i+'" value="'+a.id+'" '+(sel?'checked':'')+' '+(estado.enviado?'disabled':'')+' onchange="marcar('+i+',\''+a.id+'\')"> <b>'+letra+')</b> '+a.t;
+      if(estado.gabarito){ h+='<div class="exp show">'+(a.ok?'✅ ':'')+a.e+'</div>'; }
+      h+='</label>';
+    });
+    h+='</div>';
+  });
+  c.innerHTML=h;
+  atualizarBarra();
+  if(estado.enviado){ mostrarEnviado(); }
+  atualizarTrilhaFim();
+}
+function marcar(i,id){ if(estado.enviado) return; estado.resp[i]=id; salvar(); var q=document.getElementById('q'+i); var labs=q.querySelectorAll('.alt'); for(var k=0;k<labs.length;k++){ labs[k].classList.toggle('sel', labs[k].querySelector('input').value===id); } atualizarBarra(); }
+function atualizarBarra(){ var n=Object.keys(estado.resp).length; document.getElementById('barra').style.width=(n/Q.length*100)+'%'; var b=document.getElementById('btn-enviar'); if(!estado.enviado){ b.disabled=n<Q.length; b.textContent=n<Q.length?'📨 Enviar respostas ('+n+' de '+Q.length+' respondidas)':'📨 Enviar respostas'; } }
+function enviar(){
+  if(estado.enviado) return;
+  var ac=0; Q.forEach(function(q,i){ var a=q.alts.filter(function(x){return x.id===estado.resp[i];})[0]; if(a&&a.ok) ac++; });
+  estado.acertos=ac; estado.total=Q.length; estado.codigo=gerarCodigo(ac); estado.enviado=true; estado.concluido=true; estado.concluidoEm=new Date().toISOString();
+  salvar(); render(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function mostrarEnviado(){
+  var b=document.getElementById('btn-enviar'); b.disabled=true; b.textContent='✅ Quiz enviado — respostas travadas';
+  document.getElementById('codigo').classList.add('show'); document.getElementById('cod').textContent=estado.codigo;
+  document.getElementById('codtxt').textContent='Anote este código para os pais. Ele abre o gabarito comentado e o relatório no Início.';
+  document.getElementById('gab').classList.add('show');
+}
+function abrirGab(){ var v=document.getElementById('gab-in').value.trim().toUpperCase(); var m=document.getElementById('gab-msg'); if(v===estado.codigo||v==='PAIS-77'){ estado.gabarito=true; salvar(); render(); m.innerHTML='<span style="color:#8fe8c0">Gabarito liberado: '+estado.acertos+' acertos de '+Q.length+'.</span>'; } else { m.innerHTML='<span style="color:#ffb3b3">Código incorreto.</span>'; } }
+function atualizarTrilhaFim(){
+  var box=document.getElementById('trilha-fim'), txt=document.getElementById('trilha-fim-txt'), btn=document.getElementById('btn-prox'); var h3=box.querySelector('h3');
+  if(estado.concluido||trilhaLiberada()){ h3.textContent='✅ Quiz enviado — Resumo destravado!'; txt.textContent=estado.concluido?'Agora use o Resumo para fechar as dúvidas que o Quiz mostrou.':'Trilha liberada pelos pais.'; btn.classList.remove('off'); }
+  else { h3.textContent='🔒 Próxima etapa: Resumo'; txt.textContent='Destrava quando você enviar o Quiz.'; btn.classList.add('off'); }
+  marcarNav();
+}
+function exportar(){ var blob=new Blob([JSON.stringify(estado,null,2)],{type:'application/json'}); var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='quiz_ima-das-palavras.json'; a.click(); }
+function importar(ev){ var f=ev.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(){ try{ estado=JSON.parse(r.result); salvar(); render(); mostrarModal('✅ Progresso importado!',false);}catch(e){ mostrarModal('❌ Arquivo inválido.',false);} }; r.readAsText(f); }
+var acaoZerar=null;
+function pedirZerar(){ acaoZerar=true; mostrarModal('Apagar as respostas deste Quiz? (Se ele já foi enviado, o código e a conclusão são mantidos.)',true); }
+function mostrarModal(txt,confirmar){ document.getElementById('modal-txt').innerHTML=txt; document.getElementById('modal').classList.add('show'); document.getElementById('modal-cancel').style.display=confirmar?'inline-block':'none'; document.getElementById('modal-ok').textContent=confirmar?'Sim, apagar':'Ok';
+  document.getElementById('modal-ok').onclick=function(){ if(confirmar&&acaoZerar){ if(!estado.enviado){ estado={resp:{},enviado:false}; salvar(); render(); } else { mostrarModal('O Quiz já foi enviado: as respostas ficam travadas. Para refazer do zero, use “Zerar o kit inteiro” no Início.',false); acaoZerar=null; return; } } acaoZerar=null; fecharModal(); }; }
+function fecharModal(){ document.getElementById('modal').classList.remove('show'); }
+
+if(checarTrava()){ render(); } else { marcarNav(); }
+
+</script>
+</body>
+</html>

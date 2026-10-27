@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Guiada · Ímã das Palavras · Português 9º</title>
+<style>
+  :root{
+    --fundo:#11131a; --fundo2:#1a1d27; --borda:#2b3242; --borda2:#3e475c;
+    --ouro:#ffd23f; --azul:#4aa8ff; --verm:#ff5a4f; --verde:#3ddc84;
+    --vermelho:#ff5a4f; --texto:#e3e8ef; --cinza:#9aa6b6; --postit:#ffe88a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Trebuchet MS','Segoe UI',system-ui,Arial,sans-serif;font-size:17px;background:
+    repeating-radial-gradient(ellipse at 50% -20%,rgba(255,210,63,.045) 0 1px,transparent 1px 22px),
+    radial-gradient(900px 420px at 15% -10%,rgba(255,90,79,.18),transparent 60%),
+    radial-gradient(900px 420px at 85% -10%,rgba(74,168,255,.18),transparent 60%),var(--fundo);
+    color:var(--texto);line-height:1.65;padding-bottom:60px}
+  .mono{font-family:Consolas,'Courier New',monospace}
+  header{background:linear-gradient(120deg,#0d3a25,#145032 50%,#0d3a25);padding:26px 18px;text-align:center;
+    box-shadow:0 4px 18px rgba(0,0,0,.5);border-bottom:4px solid var(--verde)}
+  header .selo{font-family:Consolas,monospace;font-size:.78rem;letter-spacing:3px;color:#c9f0d9;text-transform:uppercase}
+  header h1{font-size:1.55rem;margin:6px 0 2px}
+  header p{color:#d8ecdf;font-size:.92rem}
+  .wrap{max-width:820px;margin:0 auto;padding:16px}
+  .barra-nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+  .barra-nav a{background:var(--fundo2);color:var(--texto);text-decoration:none;padding:7px 12px;
+    border-radius:20px;font-size:.85rem;border:1px solid var(--borda)}
+  .barra-nav a.on{background:var(--verde);color:#04210f;font-weight:bold}
+  .barra-nav a.lock{opacity:.5}
+  .intro{background:var(--fundo2);border:1px solid var(--borda);border-radius:14px;padding:16px;margin-bottom:16px}
+  .intro h2{color:var(--ouro);font-size:1.12rem;margin-bottom:8px}
+  .intro ol{margin:8px 0 0 20px}
+  .ima-legenda{display:flex;align-items:center;justify-content:center;gap:6px;margin:12px 0 4px;font-weight:bold;font-size:.9rem;flex-wrap:wrap}
+  .ima-legenda .n{background:var(--verm);color:#fff;padding:4px 10px;border-radius:8px 0 0 8px}
+  .ima-legenda .f{color:var(--ouro);font-size:1.2rem}
+  .ima-legenda .s{background:var(--azul);color:#03203d;padding:4px 10px;border-radius:0 8px 8px 0}
+  .legenda{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:.8rem}
+  .legenda span{padding:3px 10px;border-radius:12px;font-weight:bold}
+  .lg-c21{background:#3d330c;color:var(--ouro)} .lg-c22{background:#45171a;color:#ffb0a9}
+  .lg-c23{background:#0f2c4a;color:#a9d4ff} .lg-c24{background:linear-gradient(90deg,#45171a,#0f2c4a);color:#fff}
+  .painel{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;
+    background:var(--fundo2);border:1px solid var(--borda);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:.85rem}
+  .painel .btns{display:flex;gap:6px;flex-wrap:wrap}
+  button{cursor:pointer;font-family:inherit}
+  .mini{background:var(--fundo);color:var(--texto);border:1px solid var(--borda2);border-radius:8px;padding:6px 10px;font-size:.8rem}
+  .mini:hover{background:#232838}
+  .parte{margin:26px 0 12px;padding:10px 14px;border-radius:12px;font-weight:bold;font-size:.95rem;letter-spacing:.3px;border:2px dashed var(--borda2);background:#161924;font-family:Consolas,monospace}
+  .parte.c21{color:var(--ouro);border-color:var(--ouro)} .parte.c22{color:#ff8a80;border-color:var(--verm)}
+  .parte.c23{color:#8cc8ff;border-color:var(--azul)} .parte.c24{color:#fff;border-image:linear-gradient(90deg,var(--verm),var(--ouro),var(--azul)) 1}
+  .bloco{background:var(--fundo2);border:1px solid var(--borda);border-radius:16px;margin-bottom:18px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.35)}
+  .bloco.travado{opacity:.55}
+  .bloco-cab{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(90deg,#20253a,#1b2030);border-bottom:1px dashed var(--borda2)}
+  .bloco-cab .num{background:linear-gradient(90deg,var(--verm) 50%,var(--azul) 50%);color:#fff;font-weight:bold;width:44px;height:40px;border-radius:12px 12px 4px 4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-bottom:4px solid var(--ouro);text-shadow:0 1px 2px #000;font-family:Consolas,monospace}
+  .bloco-cab h3{font-size:1.08rem;color:#fff}
+  .bloco-cab .porto{font-family:Consolas,monospace;font-size:.72rem;color:var(--cinza);letter-spacing:1px;text-transform:uppercase}
+  .bloco-corpo{padding:16px}
+  .texto p{margin-bottom:10px}
+  .texto ul{margin:0 0 10px 20px}
+  .texto li{margin-bottom:5px}
+  .texto .destaque{color:var(--ouro);font-weight:bold}
+  .texto .rg{color:#ff8a80;font-weight:bold} .texto .rd{color:#8cc8ff;font-weight:bold}
+  .olhar{background:#2a2611;border-left:3px solid var(--postit);padding:8px 12px;margin:0 0 10px;border-radius:0 8px 8px 0;font-size:.93rem}
+  .olhar b{color:var(--postit)}
+  .cadeado{padding:22px 16px;text-align:center;color:var(--cinza);font-size:.9rem}
+  .perg{background:#141722;border:1px solid var(--borda);border-radius:12px;padding:12px;margin-top:14px}
+  .perg.red{border-color:var(--vermelho);box-shadow:0 0 0 1px var(--vermelho)}
+  .perg .tag{display:inline-block;font-size:.66rem;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+  .tag.conc{background:#0f2c4a;color:#bfe0ff}
+  .tag.apl{background:#3d330c;color:#f6d38e}
+  .perg label{display:block;font-weight:600;margin-bottom:8px}
+  .perg textarea{width:100%;min-height:76px;background:#0c0e14;color:var(--texto);border:1px solid var(--borda2);border-radius:8px;padding:9px;font-family:inherit;font-size:.98rem;resize:vertical}
+  .aviso{margin-top:8px;padding:9px 11px;border-radius:8px;font-size:.86rem;display:none}
+  .aviso.amarelo{display:block;background:#4a3d12;border:1px solid var(--ouro);color:#ffe9ad}
+  .aviso.vermelho{display:block;background:#4a1717;border:1px solid var(--vermelho);color:#ffc9c9}
+  .modelo{margin-top:10px;padding:10px 12px;background:#0e2b1e;border:1px solid var(--verde);border-radius:8px;font-size:.92rem;display:none}
+  .modelo.show{display:block}
+  .modelo .lab{color:#9be8bd;font-weight:bold;font-size:.78rem;text-transform:uppercase;letter-spacing:1px}
+  .chk{margin-top:10px;font-size:.88rem}
+  .chk .item{display:flex;align-items:center;gap:8px;margin:6px 0;flex-wrap:wrap}
+  .chk .item span{flex:1;min-width:180px}
+  .chk .simnao button{border:1px solid var(--borda2);background:#0c0e14;color:var(--texto);border-radius:6px;padding:4px 10px;margin-left:4px;font-size:.8rem}
+  .chk .simnao button.sim.ativo{background:var(--verde);border-color:var(--verde);color:#04210f}
+  .chk .simnao button.nao.ativo{background:var(--vermelho);border-color:var(--vermelho);color:#fff}
+  .conferir{margin-top:14px;background:var(--ouro);color:#2b2200;border:none;border-radius:10px;padding:11px 18px;font-size:1rem;font-weight:bold;width:100%}
+  .conferir:disabled{background:#262b3a;color:#7d8798;cursor:not-allowed}
+  .status-bloco{margin-top:10px;text-align:center;font-weight:bold;font-size:.95rem}
+  .prox{margin-top:12px;text-align:center}
+  .prox a{color:var(--ouro);text-decoration:none;font-weight:bold}
+  .peg{background:#3a1419;border:2px solid var(--vermelho);border-radius:16px;padding:16px;margin-top:20px}
+  .peg h3{color:#ffb3bb;margin-bottom:10px}
+  .peg ol{margin-left:20px}
+  .peg li{margin-bottom:7px}
+  .cobertura{background:var(--fundo2);border:1px solid var(--borda);border-radius:16px;padding:16px;margin-top:18px}
+  .cobertura h3{color:var(--ouro);margin-bottom:10px}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  th,td{border:1px solid var(--borda);padding:7px 9px;text-align:left}
+  th{background:#20253a}
+  .revisar{background:#3a2e06;border:2px solid var(--ouro);border-radius:16px;padding:16px;margin-top:18px}
+  .revisar h3{color:var(--ouro);margin-bottom:8px}
+  .revisar ul{margin-left:18px}
+  .relatorio{background:var(--fundo2);border:1px dashed var(--verde);border-radius:14px;padding:16px;margin-top:18px;font-size:.9rem}
+  .relatorio h3{color:var(--verde);margin-bottom:8px}
+  .trilha-fim{background:linear-gradient(120deg,#0f2a1c,#13392a);border:2px solid var(--verde);border-radius:16px;padding:18px;margin-top:18px;text-align:center}
+  .trilha-fim h3{color:#9be8bd;margin-bottom:8px}
+  .trilha-fim a.btn{display:inline-block;margin-top:8px;background:var(--verde);color:#04210f;text-decoration:none;font-weight:bold;padding:11px 20px;border-radius:10px}
+  .trilha-fim a.btn.off{background:#262b3a;color:#7d8798;pointer-events:none}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:50;align-items:center;justify-content:center;padding:16px}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--fundo2);border:1px solid var(--ouro);border-radius:14px;padding:20px;max-width:420px;text-align:center}
+  .modal p{margin-bottom:14px}
+  .modal button{background:var(--ouro);color:#2b2200;border:none;border-radius:8px;padding:9px 16px;font-weight:bold}
+  .rodape{text-align:center;color:var(--cinza);font-size:.8rem;margin-top:24px}
+</style>
+</head>
+<body>
+<header>
+  <div class="selo">Ímã das Palavras · Português 9º ano · CCF</div>
+  <h1>📖 Leitura Guiada — Os 10 Ímãs</h1>
+  <p>Regência verbal e nominal · Crase · Caps. 21, 22, 23 e 24 · Callis Língua Portuguesa 9 – Livro 2</p>
+</header>
+
+<div class="wrap">
+  <nav class="barra-nav" id="nav">
+    <a class="on" href="leitura-guiada.html">📖 Leitura Guiada</a>
+    <a href="quiz.html" data-etapa="quiz">🎯 Quiz</a>
+    <a href="resumo.html" data-etapa="resumo">🗺️ Resumo</a>
+    <a href="simulado.html" data-etapa="simulado">📝 Simulado</a>
+    <a href="index.html">🏠 Início</a>
+  </nav>
+
+  <div class="intro">
+    <h2>🧲 Palavras que atraem palavras</h2>
+    <p>O seu livro diz que nomes e verbos são núcleos que <b>atraem</b> outras palavras. Neste kit, cada palavra que exige um complemento é um <b>ímã</b>: o <b style="color:var(--verm)">polo vermelho</b> é o termo que pede (o <b>regente</b>), o <b style="color:var(--azul)">polo azul</b> é o termo que completa (o <b>regido</b>) e a <b style="color:var(--ouro)">faísca amarela</b> é a preposição que liga os dois. No fim, você vai ver o que acontece quando dois “a” se encontram: a <b>fusão</b> chamada <b>crase</b>.</p>
+    <div class="ima-legenda"><span class="n">REGENTE</span><span class="f">⚡ preposição ⚡</span><span class="s">REGIDO</span></div>
+    <ol>
+      <li>Leia o ímã com calma (tudo aqui vem do seu livro).</li>
+      <li>Responda as 3 perguntas <b>escrevendo</b> com as suas palavras (não vale copiar o texto).</li>
+      <li>Clique em <b>Conferir</b>: aparece a resposta-modelo e uma autoavaliação Sim/Não.</li>
+      <li>Com os 10 ímãs conferidos e a autoavaliação respondida, o <b>🎯 Quiz destrava</b>.</li>
+    </ol>
+    <div class="legenda"><span class="lg-c21">⚡ Ímãs 1–2 · Regência (Cap. 21)</span><span class="lg-c22">🔴 3–5 · Regência verbal (Caps. 21–22)</span><span class="lg-c23">🔵 6–7 · Regência nominal (Cap. 23)</span><span class="lg-c24">💥 8–10 · Crase (Cap. 24)</span></div>
+  </div>
+
+  <div class="painel">
+    <span id="salvo">💾 Progresso salvo automaticamente.</span>
+    <div class="btns">
+      <button class="mini" onclick="exportar()">📥 Exportar</button>
+      <button class="mini" onclick="document.getElementById('imp').click()">📤 Importar</button>
+      <input type="file" id="imp" accept="application/json" style="display:none" onchange="importar(event)">
+      <button class="mini" onclick="pedirZerar()">🗑️ Zerar tudo</button>
+    </div>
+  </div>
+
+  <div id="blocos"></div>
+
+  <div class="peg">
+    <h3>⚠️ 10 Pegadinhas da Prova (não caia nelas!)</h3>
+    <ol>
+      <li><b>Preposição não faz complemento.</b> Em “caminharam <b>pelo planeta</b>”, o termo com preposição é <b>adjunto adverbial</b> (lugar), não objeto indireto. Complemento é o que é <b>necessário</b> para completar o sentido do verbo.</li>
+      <li><b>Chegar a</b> é a norma-padrão: “cheguei <b>a</b> casa”, “chegou <b>à</b> Terra”. “Chegar <b>em</b>” é uso informal.</li>
+      <li><b>Preferir</b> uma coisa <b>a</b> outra — nunca “do que” na norma-padrão.</li>
+      <li><b>Lembrar/esquecer:</b> com pronome, com preposição (“me lembrei <b>do</b>”, “lembre-se <b>de que</b>”); sem pronome, sem preposição (“lembrei <b>o</b>”, “esqueceu <b>o</b> sonho”).</li>
+      <li><b>Assistir</b> a = presenciar · assistir (sem preposição) = socorrer · assistir em = morar.</li>
+      <li><b>Visar</b> o = mirar · visar <b>a</b> = ter como objetivo (“visando <b>ao</b> bem de todos”).</li>
+      <li>O <b>lhe</b> é sempre objeto indireto, mas nem todo verbo transitivo indireto aceita “lhe”: “Eu concordo <b>com</b> você” não vira “Eu lhe concordo”.</li>
+      <li>“Respeito <b>ao</b> robô” = complemento nominal (robô é o <b>alvo</b>); “respeito <b>do</b> robô” = adjunto adnominal (robô é o <b>agente</b>).</li>
+      <li><b>Sem crase</b> antes de palavra masculina (“<b>a</b> pé”, “<b>a</b> respeito”), antes de verbo (“começou <b>a</b> imaginar”), antes de palavra genérica (“refiro-me <b>a</b> pessoas”) e entre palavras repetidas (“cara <b>a</b> cara”).</li>
+      <li><b>Crase opcional</b> diante de possessivo com substantivo feminino (“a/à sua mãe”) e de nome próprio feminino. Mas “relativo <b>à</b> mulheres” está <b>errado</b>: palavra no plural, de sentido genérico, sem artigo.</li>
+    </ol>
+  </div>
+
+  <div class="cobertura">
+    <h3>🧭 Cobertura: Tópico → Ímã</h3>
+    <table>
+      <thead><tr><th>Tópico</th><th>Páginas (Callis L. Portuguesa 9 – L2)</th><th>Ímã</th></tr></thead>
+      <tbody>
+        <tr><td>Regência: termo regente e termo regido; nomes e verbos como núcleos; Síntese</td><td>109–110, 117</td><td>1</td></tr>
+        <tr><td>Preposições, locuções prepositivas, combinação e contração; sentidos da preposição; questão do Enem (“de rua” × “na rua”)</td><td>111–113, 116; 131</td><td>2</td></tr>
+        <tr><td>Regência verbal e transitividade (VI, VTD, VTI, bitransitivo, pronominal essencial e acidental); complemento × adjunto adverbial</td><td>112, 130–132, 137</td><td>3</td></tr>
+        <tr><td>Regência que muda o sentido: assistir, visar, querer, sonhar</td><td>110, 115, 133, 136, 138</td><td>4</td></tr>
+        <tr><td>Norma-padrão × uso informal: chegar a, preferir… a, lhe/concordar, lembrar/esquecer, pagar/perdoar</td><td>113–114, 133–135</td><td>5</td></tr>
+        <tr><td>Regência nominal: complemento nominal; nomes que copiam o verbo (obedecer/obediência/obediente); preposições a, com, de, em, para, por</td><td>151–152, 161</td><td>6</td></tr>
+        <tr><td>Complemento em forma de oração (completiva nominal); complemento nominal × adjunto adnominal; preparado por/para/com; “substituição”</td><td>152, 154–156, 159–160</td><td>7</td></tr>
+        <tr><td>As três classes do “a” (artigo, pronome, preposição); crase e acento grave; crase como caso de regência</td><td>173–175, 183</td><td>8</td></tr>
+        <tr><td>Casos sem crase e de crase obrigatória; infográfico “Às vésperas do futuro”; texto de Arthur C. Clarke</td><td>175, 177–178, 180–182</td><td>9</td></tr>
+        <tr><td>Crase opcional; os 3 macetes (masculino, outra preposição, “para”); Questão invertida; destinos</td><td>176, 179–180</td><td>10</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="revisar" id="revisar" style="display:none">
+    <h3>🔁 Para revisar antes da prova</h3>
+    <ul id="revisar-lista"></ul>
+  </div>
+
+  <div class="relatorio">
+    <h3>📊 Para os pais (resumo desta leitura)</h3>
+    <div id="rel-conteudo">Assim que o aprendiz for conferindo os ímãs, o resumo aparece aqui.</div>
+  </div>
+
+  <div class="trilha-fim" id="trilha-fim">
+    <h3>🔒 Próxima etapa: Quiz</h3>
+    <p id="trilha-fim-txt">O Quiz destrava quando os 10 ímãs estiverem conferidos e a autoavaliação respondida.</p>
+    <a class="btn off" id="btn-prox" href="quiz.html">🎯 Ir para o Quiz</a>
+  </div>
+
+  <div class="rodape">Feito com carinho para o jovem aprendiz. 🧲 Boa leitura — e boa prova!</div>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <p id="modal-txt"></p>
+    <button onclick="fecharModal()" id="modal-ok">Ok</button>
+    <button class="mini" onclick="fecharModal()" id="modal-cancel" style="display:none;margin-left:8px">Cancelar</button>
+  </div>
+</div>
+
+<script>
+/* ====== TRILHA COM CADEADOS (módulo comum do kit) ====== */
+var KIT='ima_palavras_port9';
+var TRILHA=[
+ {id:'leitura', chave:KIT+'_leitura_v1', nome:'Leitura Guiada', arquivo:'leitura-guiada.html', emoji:'📖'},
+ {id:'quiz', chave:KIT+'_quiz_v1', nome:'Quiz', arquivo:'quiz.html', emoji:'🎯'},
+ {id:'resumo', chave:KIT+'_resumo_v1', nome:'Resumo', arquivo:'resumo.html', emoji:'🗺️'},
+ {id:'simulado', chave:KIT+'_simulado_v1', nome:'Simulado', arquivo:'simulado.html', emoji:'📝'}
+];
+function lerJSON(k){ try{ var s=localStorage.getItem(k); return s?JSON.parse(s):null; }catch(e){ return null; } }
+function trilhaLiberada(){ var t=lerJSON(KIT+'_trilha_v1'); return !!(t&&t.liberadoPelosPais); }
+function etapaConcluida(id){ var e=TRILHA.filter(function(t){return t.id===id;})[0]; var d=lerJSON(e.chave); return !!(d&&d.concluido); }
+function podeAbrir(id){ var idx=TRILHA.map(function(t){return t.id;}).indexOf(id); if(idx<=0||trilhaLiberada()) return true; return etapaConcluida(TRILHA[idx-1].id); }
+function marcarNav(){
+  var links=document.querySelectorAll('#nav a[data-etapa]');
+  for(var i=0;i<links.length;i++){ var id=links[i].getAttribute('data-etapa'); if(!podeAbrir(id)){ links[i].classList.add('lock'); links[i].textContent='🔒 '+links[i].textContent.replace('🔒 ',''); links[i].setAttribute('title','Ainda trancado'); } else { links[i].classList.remove('lock'); links[i].textContent=links[i].textContent.replace('🔒 ',''); links[i].removeAttribute('title'); } }
+}
+
+/* ====== ÍMÃS (conteúdo do livro Callis Língua Portuguesa 9 – Livro 2, Caps. 21 a 24) ====== */
+var BLOCOS = [
+ {
+  porto:"Ímã 01 · Capítulo 21 · Regência", emoji:"🧲", u:"c21", parte:"⚡ Regência: palavras que atraem palavras (Cap. 21 — Viagens (im)possíveis)",
+  titulo:"Quem atrai quem: termo regente e termo regido",
+  texto:[
+   "Na tirinha “As gêmeas em: o que ler hoje?”, uma das meninas pergunta: <i>“Do que você gostaria?”</i>. Repare que a pergunta começa com a preposição <b>de</b>. Isso acontece porque o verbo <b>gostar</b> pede essa preposição para se ligar àquilo de que se gosta. Esse “pedido” que uma palavra faz a outra é o assunto deste kit: a <span class='destaque'>regência</span>.",
+   "O livro explica que as palavras se conectam de várias maneiras e que <b>nomes</b> e <b>verbos</b> funcionam como núcleos que <b>atraem</b> outras palavras. A palavra que exige o complemento é o <span class='rg'>termo regente</span>. A palavra ou expressão que completa o sentido dela é o <span class='rd'>termo regido</span>.",
+   "Dois exemplos do capítulo: em “Os meninos tinham <b>medo de tanta mudança em seu mundo</b>”, o substantivo <span class='rg'>medo</span> é o regente (medo de quê?) e <span class='rd'>de tanta mudança em seu mundo</span> é o regido. Em “<b>Prefiro</b> um livro de ficção a um romance”, o verbo <span class='rg'>prefiro</span> é o regente e tem dois regidos: <span class='rd'>um livro de ficção</span>, <b>sem</b> preposição (o quê?), e <span class='rd'>a um romance</span>, <b>com</b> preposição (a quê?).",
+   "A Síntese do capítulo resume: regência é a relação entre um nome ou um verbo e seus complementos por meio de uma preposição; os nomes que normalmente pedem complemento são <b>substantivos, adjetivos e advérbios</b>; a regência de um verbo está ligada à sua <b>transitividade</b> (se precisa ou não de complementos); e a preposição estabelece um <b>sentido</b> entre o termo regente e o termo regido.",
+   "<div class='olhar'><b>Ímã 01:</b> <span style='color:#ff8a80'><b>polo vermelho</b></span> = termo REGENTE (quem pede) · <span style='color:#8cc8ff'><b>polo azul</b></span> = termo REGIDO (quem completa) · <b>faísca amarela</b> = a preposição que liga os dois, quando ela existe.</div>"
+  ],
+  perguntas:[
+   {tag:"conc",q:"Com as suas palavras: qual é a diferença entre termo regente e termo regido?",modelo:"O termo regente é a palavra que exige um complemento para ter o sentido completo (pode ser um nome ou um verbo). O termo regido é a palavra ou expressão que completa o sentido do regente.",chk:["Disse que o regente é quem exige/pede o complemento?","Disse que o regido é o que completa o sentido do regente?"]},
+   {tag:"apl",q:"Na frase nova “A tripulação tinha confiança no capitão da nave”, aponte o termo regente, o termo regido ligado a ele e a preposição que liga os dois.",modelo:"Regente: “confiança” (substantivo). Regido: “no capitão da nave”. A preposição é “em”, que aparece unida ao artigo: em + o = no.",chk:["Apontei “confiança” como termo regente?","Apontei “no capitão da nave” como termo regido?","Disse que a preposição é “em” (unida ao artigo em “no”)?"]},
+   {tag:"apl",q:"Crie uma frase sua com o verbo “preferir” que tenha os dois termos regidos: um sem preposição e outro com a preposição “a”. Depois, separe cada um.",modelo:"Exemplo: “Prefiro filmes de ficção a novelas.” Sem preposição: “filmes de ficção”. Com a preposição “a”: “a novelas”.",chk:["Usei “preferir” com um complemento sem preposição?","Usei um segundo complemento começando com a preposição “a” (e não “do que”)?"]}
+  ]
+ },
+ {
+  porto:"Ímã 02 · Capítulo 21 · Preposições", emoji:"⚡", u:"c21",
+  titulo:"As faíscas: preposições, locuções, combinação e contração",
+  texto:[
+   "Estudar regência é descobrir <b>qual preposição usar</b> (ou se não se usa nenhuma) para ligar o regente ao regido e chegar ao sentido desejado. As principais preposições, segundo o livro, são: <b>a, ante, após, até, com, contra, de, desde, em, entre, para, perante, por, sem, sob, sobre, trás</b>.",
+   "A preposição também pode aparecer em grupo, formando uma <span class='destaque'>locução prepositiva</span>. Algumas da lista do livro: <i>abaixo de, acima de, a fim de, além de, apesar de, atrás de, através de, junto de, junto a, embaixo de, em frente a, em cima de, em face de, longe de, de acordo com, por causa de, por trás de, a despeito de, devido a, em virtude de, a favor de, sob pena de</i>.",
+   "Quando a preposição se une a outras palavras, há dois jeitos. Na <span class='destaque'>combinação</span>, as palavras se juntam <b>sem sofrer alteração</b>: a + o = <b>ao</b>; a + onde = <b>aonde</b>. Na <span class='destaque'>contração</span>, a preposição <b>se altera</b> na união: a + a = <b>à</b>; a + aquele = <b>àquele</b>; de + o = <b>do</b>; de + este = <b>deste</b>; de + aqui = <b>daqui</b>; em + a = <b>na</b>; em + este = <b>neste</b>; em + um = <b>num</b>; por + a = <b>pela</b>; por + os = <b>pelos</b>.",
+   "A preposição não é só um “fio”: ela traz <b>sentido</b>. No texto <i>Spaceguard</i>, de Arthur C. Clarke, aparecem preposições com ideia de tempo, lugar, matéria e posse; em “A raça humana se espalhara <b>de</b> um polo a outro”, a ideia é de <b>lugar</b>. Numa questão do Enem trazida pelo livro (p. 116), a crônica troca “meninos <b>de</b> rua” por “meninos <b>na</b> rua”: com “na”, a rua passa a indicar <b>onde</b> o menino está (localização), e não um rótulo, uma qualidade dele.",
+   "<div class='olhar'><b>Faísca:</b> COMBINAÇÃO = junta e não muda (ao, aonde). CONTRAÇÃO = junta e muda (à, àquele, do, na, pela…).</div>"
+  ],
+  perguntas:[
+   {tag:"conc",q:"Explique com as suas palavras a diferença entre combinação e contração e dê um exemplo de cada.",modelo:"Na combinação, a preposição se junta a outra palavra sem mudar nada (a + o = ao; a + onde = aonde). Na contração, a preposição sofre alteração ao se juntar (de + o = do; em + a = na; por + a = pela).",chk:["Disse que na combinação nada muda?","Disse que na contração a preposição se altera?","Dei um exemplo correto de cada uma?"]},
+   {tag:"apl",q:"Na frase “Muitos males da humanidade procedem da falta de cuidado”, separe as palavras que formam o “da” de “da falta” e diga se é combinação ou contração. Justifique.",modelo:"“da” = de + a (preposição “de” + artigo “a”). É contração, porque a preposição “de” se altera (perde o “e”) ao se juntar ao artigo — como em de + o = do.",chk:["Separei em de + a?","Classifiquei como contração?","Justifiquei dizendo que a preposição muda ao se juntar?"]},
+   {tag:"apl",q:"No prefácio de Arthur C. Clarke para “2001: uma odisseia no espaço” lemos: “Então, para cada homem que já viveu, brilha uma estrela nesse Universo.” Que diferença de sentido haveria se a frase dissesse “com cada homem”? Explique.",modelo:"“Para cada homem” dá a ideia de que existe uma estrela correspondendo a cada pessoa (uma estrela para cada um). “Com cada homem” daria a ideia de companhia, como se a estrela estivesse junto do homem. Trocar a preposição muda o sentido.",chk:["Expliquei que “para” indica que há uma estrela correspondendo a cada pessoa?","Expliquei que “com” passaria a ideia de companhia?"]}
+  ]
+ },
+ {
+  porto:"Ímã 03 · Capítulo 22 · Regência verbal", emoji:"🔴", u:"c22", parte:"🔴 Regência verbal: o ímã é um VERBO (Caps. 21 e 22 — Outras galáxias)",
+  titulo:"Os tipos de verbo: quem pede e quem não pede complemento",
+  texto:[
+   "Chamamos de <span class='destaque'>regência verbal</span> a relação de dependência entre um <b>verbo</b> e seus <b>complementos</b>. É ela que define se, para o sentido que se quer dar, entra ou não uma preposição entre o verbo e o complemento. Por isso, o estudo da regência verbal está ligado ao da <b>transitividade</b>.",
+   "<b>Intransitivo (VI):</b> a ação não passa para um objeto; o verbo não precisa de complemento (pode ter acessórios). Ex.: “Cem bilhões de seres humanos já <b>caminharam</b> pelo planeta.” <b>Transitivo direto (VTD):</b> pede complemento <b>sem</b> preposição, o objeto direto. Ex.: “Lentamente, os homens <b>adquirem</b> outras perspectivas.” (adquirem o quê?)",
+   "<b>Transitivo indireto (VTI):</b> pede complemento <b>com</b> preposição, o objeto indireto. Ex.: “Muitas pessoas já <b>esperam por</b> mudanças.” (esperam pelo quê?) <b>Bitransitivo, ou transitivo direto e indireto (VTDI):</b> pede dois complementos, um sem e outro com preposição. Ex.: “Existe terra para <b>dar</b> a cada homem seu próprio paraíso.” (dar o quê a quem?)",
+   "<b>Pronominal:</b> é conjugado junto a um pronome oblíquo (me, te, se, nos, vos). Alguns são <b>essencialmente pronominais</b>: apiedar-se, arrepender-se, dignar-se, queixar-se, suicidar-se, zangar-se. Outros são <b>acidentais</b>: existem sem o pronome, mas ganham ideia de reflexão quando o recebem — debater/debater-se, enganar/enganar-se, esquecer/esquecer-se, lembrar/lembrar-se, pentear/pentear-se. No texto de Ray Bradbury (<i>As crônicas marcianas</i>), “Os dedos castanhos tremeram, <b>ergueram-se</b>, agarraram o ar” traz um intransitivo, um pronominal e um transitivo.",
+   "<div class='olhar'><b>Atenção:</b> nem todo termo com preposição é complemento! Em “caminharam <b>pelo planeta</b>”, o termo é um <b>adjunto adverbial</b> (indica lugar). Segundo o livro, a diferença entre complemento e acessório não é a preposição, mas a <b>obrigatoriedade</b> do termo para completar o sentido do verbo.</div>"
+  ],
+  perguntas:[
+   {tag:"conc",q:"Explique a diferença entre um verbo transitivo direto e um verbo transitivo indireto.",modelo:"O transitivo direto pede um complemento ligado sem preposição (objeto direto). O transitivo indireto pede um complemento ligado com preposição (objeto indireto).",chk:["Disse que o VTD tem complemento sem preposição (objeto direto)?","Disse que o VTI tem complemento com preposição (objeto indireto)?"]},
+   {tag:"apl",q:"Classifique o verbo destacado e justifique: a) “O robô CAMINHOU pelo laboratório.” b) “A cientista ENTREGOU o relatório ao diretor da missão.”",modelo:"a) Intransitivo: “caminhar” não precisa de complemento; “pelo laboratório” é só a circunstância de lugar (adjunto adverbial). b) Bitransitivo (VTDI): entregou o quê? “o relatório” (objeto direto, sem preposição); a quem? “ao diretor da missão” (objeto indireto, com preposição).",chk:["Classifiquei “caminhou” como intransitivo (com “pelo laboratório” como adjunto)?","Classifiquei “entregou” como bitransitivo/VTDI?","Separei o objeto direto e o objeto indireto?"]},
+   {tag:"apl",q:"Escreva duas frases suas com o verbo “enganar”: uma sem pronome e outra com o pronome (enganar-se). Explique o que muda.",modelo:"“O vendedor enganou o cliente.” (a ação recai sobre outra pessoa) / “Eu me enganei de caminho.” (com o pronome, a ação se volta para o próprio sujeito, com ideia de reflexão). “Enganar” é um pronominal acidental.",chk:["Escrevi uma frase com “enganar” sem pronome?","Escrevi outra com pronome (me, te, se, nos…) junto do verbo?","Expliquei que, com o pronome, a ação se volta para o próprio sujeito?"]}
+  ]
+ },
+ {
+  porto:"Ímã 04 · Capítulos 21 e 22 · Regência e sentido", emoji:"🔀", u:"c22",
+  titulo:"Mudou a preposição, mudou o sentido",
+  texto:[
+   "A preposição pode até <b>mudar o significado</b> de um verbo. O exemplo do livro é <span class='destaque'>assistir</span>. “Na ficção, a garota <b>assistia à</b> destruição de seu planeta” → VTI, sentido de <b>presenciar, observar</b>. “Em vão, o herói <b>assistia</b> seu planeta durante a destruição” → VTD, sentido de <b>socorrer, ajudar</b>. “O alienígena <b>assistia em</b> um planeta devastado e fugiu para a Terra” → intransitivo + adjunto adverbial, sentido de <b>morar, residir</b>.",
+   "Há verbos que admitem mais de uma regência na norma-padrão e mudam de sentido conforme a escolha. É o caso de <span class='destaque'>visar</span>: “<b>Visou o</b> planeta e programou as coordenadas” (VTD = <b>mirar</b>); “<b>Visando ao</b> bem do planeta, preservou-lhe os recursos” (VTI = <b>objetivar, ter como meta</b>).",
+   "O verbo <span class='destaque'>querer</span> também: como VTD, significa <b>desejar</b> (“Eu quero viajar”); como VTI, significa <b>estimar</b> (“Eu quero muito <b>ao</b> meu professor”). E o verbo <b>sonhar</b> aparece no livro de vários jeitos: “Sonhei <b>com</b> um ser”, “Sonhei <b>que</b> havia alguma coisa no céu”, “Sonhei durante o dia” e “Sonhou <b>em</b> viajar pelo espaço”.",
+   "Moral da história: antes de escolher a preposição, pense no <b>sentido</b> que você quer dar à frase. Em caso de dúvida, o livro recomenda consultar uma gramática ou um dicionário específico de regência verbal.",
+   "<div class='olhar'><b>Ímã 04:</b> assistir <b>a</b> = ver · assistir (sem preposição) = ajudar · assistir <b>em</b> = morar | visar <b>o</b> = mirar · visar <b>a</b> = ter como objetivo | querer (sem preposição) = desejar · querer <b>a</b> = estimar.</div>"
+  ],
+  perguntas:[
+   {tag:"apl",q:"Diga o sentido de “assistir” em cada frase nova e justifique pela regência: a) “O médico assistiu os feridos do acidente.” b) “A turma assistiu à apresentação de teatro.”",modelo:"a) Socorrer, ajudar: o verbo é transitivo direto, com complemento sem preposição (“os feridos”). b) Presenciar, ver: o verbo é transitivo indireto, com a preposição “a” (a + a = “à apresentação”).",chk:["Disse que em (a) é socorrer/ajudar, porque não há preposição?","Disse que em (b) é presenciar/ver, porque há a preposição “a”?"]},
+   {tag:"apl",q:"Complete com “o” ou “ao” e explique o sentido: “O arqueiro visou ___ alvo.” / “A campanha visa ___ bem-estar dos animais.”",modelo:"“O arqueiro visou o alvo” = mirou (VTD, sem preposição). “A campanha visa ao bem-estar dos animais” = tem como objetivo (VTI, preposição “a” + artigo “o” = ao).",chk:["Completei a 1ª com “o” e expliquei que é mirar?","Completei a 2ª com “ao” e expliquei que é ter como objetivo?"]},
+   {tag:"apl",q:"Explique a diferença de sentido entre “Quero um robô novo” e “Quero muito aos meus avós”.",modelo:"Na 1ª frase, “querer” é transitivo direto (sem preposição) e significa desejar. Na 2ª, é transitivo indireto (com a preposição “a”) e significa estimar, gostar muito de alguém.",chk:["Disse que na 1ª é desejar (sem preposição)?","Disse que na 2ª é estimar (com preposição “a”)?"]}
+  ]
+ },
+ {
+  porto:"Ímã 05 · Capítulos 21 e 22 · Norma-padrão", emoji:"📏", u:"c22",
+  titulo:"Norma-padrão × fala do dia a dia",
+  texto:[
+   "Às vezes a gente fala de um jeito, mas a <span class='destaque'>norma-padrão</span> pede outro. O caso mais famoso é <b>chegar</b>: como transitivo indireto, ele rege a preposição <b>a</b> (sentido de atingir, alcançar). “O meteorito chegou <b>à</b> Terra.” Construções como “Cheguei <b>em</b> casa”, “não cheguei <b>nessa</b> página” e “não cheguei nem <b>no</b> meio do caminho” só ficam adequadas a contextos <b>informais</b> (diários, cartas, bilhetes). Na norma-padrão: chegar <b>a</b> casa, chegar <b>a</b> essa página, chegar <b>ao</b> meio.",
+   "<span class='destaque'>Preferir</span> é transitivo direto e indireto e rege a preposição <b>a</b>: prefere-se uma coisa <b>a</b> outra. “<b>Prefiro</b> ler ficção científica <b>a</b> romances.” O uso com “do que” é informal.",
+   "<span class='destaque'>Lembrar</span> e <span class='destaque'>esquecer</span> seguem uma regra simples: <b>se usar pronome, use preposição; sem pronome, sem preposição</b>. “Você <b>se esqueceu do</b> seu sonho?” · “A moça <b>esqueceu o</b> sonho de viajar.” · “Ninguém <b>se lembrou do</b> viajante.” · “Quem irá <b>lembrar o</b> viajante?”",
+   "<span class='destaque'>Pagar</span> e <span class='destaque'>perdoar</span> são bitransitivos: o objeto <b>direto</b> costuma indicar <b>coisas</b>, e o <b>indireto</b>, <b>pessoas</b> — pagar as prestações <b>ao</b> banco; perdoar o engano <b>ao</b> irmão. E o pronome <b>lhe</b> é sempre usado como <b>objeto indireto</b>, mas nem todo verbo transitivo indireto aceita “lhe”: “Eu <b>concordo com</b> você” não admite o “lhe”.",
+   "<div class='olhar'><b>Ímã 05:</b> 🚫 “Cheguei em casa” (informal) → ✅ “Cheguei a casa” · 🚫 “Prefiro X do que Y” → ✅ “Prefiro X a Y” · 🚫 “Só lembrei do combinado” → ✅ “Só me lembrei do combinado”.</div>"
+  ],
+  perguntas:[
+   {tag:"apl",q:"Reescreva na norma-padrão e explique a mudança: “Quando cheguei no planetário, a sessão já tinha começado.”",modelo:"“Quando cheguei ao planetário, a sessão já tinha começado.” Na norma-padrão, “chegar” rege a preposição “a” (a + o = ao); “chegar em/no” é uso informal.",chk:["Troquei “no” por “ao”?","Expliquei que “chegar” pede a preposição “a” na norma-padrão?"]},
+   {tag:"apl",q:"Corrija as duas frases pela regra de “lembrar/esquecer”: a) “Esqueci do caderno em casa.” b) “Lembre-se que amanhã tem prova.”",modelo:"a) “Esqueci o caderno em casa.” (sem pronome, sem preposição) — ou “Esqueci-me do caderno em casa.” (com pronome, com preposição). b) “Lembre-se de que amanhã tem prova.” (há o pronome “se”, então entra a preposição “de”).",chk:["Em (a), tirei a preposição OU coloquei o pronome junto com ela?","Em (b), coloquei o “de” antes de “que”?","Usei a regra: com pronome, com preposição; sem pronome, sem preposição?"]},
+   {tag:"apl",q:"Monte, na norma-padrão, uma frase com “perdoar” usando OD = “as brincadeiras” e OI = “os colegas”, e outra com “preferir” comparando dois esportes.",modelo:"“Ela perdoou as brincadeiras aos colegas.” (a coisa é o objeto direto, sem preposição; as pessoas são o objeto indireto, com “a”) / “Prefiro vôlei a futebol.” (preferir + a, e não “do que”).",chk:["Na frase com “perdoar”, a coisa ficou sem preposição e as pessoas com “a”?","Na frase com “preferir”, usei “a” e não “do que”?"]}
+  ]
+ },
+ {
+  porto:"Ímã 06 · Capítulo 23 · Regência nominal", emoji:"🔵", u:"c23", parte:"🔵 Regência nominal: o ímã é um NOME (Cap. 23 — Coisas do futuro)",
+  titulo:"Nomes que também atraem: o complemento nominal",
+  texto:[
+   "Não são apenas os verbos que regem complementos. Vários <b>nomes</b> só ficam com o significado completo se vierem acompanhados de outra expressão — isso acontece com <b>substantivos abstratos</b>, <b>adjetivos</b> e <b>advérbios</b>. O termo que completa o sentido de um nome chama-se <span class='destaque'>complemento nominal</span>, e ele é inserido com a mediação de uma <b>preposição</b>.",
+   "Nas “três leis da robótica”, de Isaac Asimov, a segunda lei diz que o robô deve obedecer a qualquer ordem humana “desde que essa ordem não interfira com a <b>execução</b> da Primeira Lei”. Se a frase parasse em “execução”, ficaria incompleta: execução <b>de quê</b>? A expressão <span class='rd'>da Primeira Lei</span> completa o sentido do nome <span class='rg'>execução</span>. (Curiosidade do livro: o verbo “interferir” usado com “com” não segue a norma-padrão; em outro trecho de Asimov aparece “interferissem <b>no</b> meu comportamento”.)",
+   "Muitos nomes <b>copiam a regência do verbo</b> de onde vêm. “Os robôs devem <b>obedecer aos</b> homens” (verbo) → “Os robôs devem <b>obediência aos</b> homens” (substantivo) → “Os robôs devem ser <b>obedientes aos</b> homens” (adjetivo). Os três regem a preposição <b>a</b>.",
+   "As preposições mais usadas na regência nominal, com os exemplos do livro: <b>a</b> (alheio a, comum a, apto a); <b>com</b> (cruel com, intolerante com, amoroso com); <b>de</b> (cheio de, desejoso de, passível de); <b>em</b> (exato em, firme em, perito em); <b>para</b> (inútil para, próprio para, bom para); <b>por</b> (ansioso por, responsável por, fanático por).",
+   "<div class='olhar'><b>Ímã 06:</b> na regência verbal, o ímã é um VERBO; na regência nominal, o ímã é um NOME (substantivo, adjetivo ou advérbio) — e o complemento nominal sempre vem com preposição.</div>"
+  ],
+  perguntas:[
+   {tag:"conc",q:"O que é complemento nominal? Responda com as suas palavras.",modelo:"É o termo que completa o sentido de um nome (substantivo abstrato, adjetivo ou advérbio) que sozinho ficaria incompleto. Ele vem ligado ao nome por uma preposição.",chk:["Disse que ele completa o sentido de um NOME?","Disse que vem ligado por preposição?"]},
+   {tag:"apl",q:"Transforme a frase em duas, trocando o verbo por um substantivo e depois por um adjetivo, mantendo a preposição: “Os jogadores obedecem às regras do campeonato.”",modelo:"“Os jogadores têm obediência às regras do campeonato.” (substantivo) / “Os jogadores são obedientes às regras do campeonato.” (adjetivo). A preposição “a” continua, porque o nome copia a regência do verbo “obedecer”.",chk:["Escrevi a frase com o substantivo “obediência”?","Escrevi a frase com o adjetivo “obediente(s)”?","Mantive a preposição “a” (às regras)?"]},
+   {tag:"apl",q:"Complete com a preposição da lista do livro e escreva a frase inteira: a) “O robô é apto ___ tarefas difíceis.” b) “Ela é perita ___ robótica.” c) “Ele é responsável ___ equipe.”",modelo:"a) “O robô é apto a tarefas difíceis.” b) “Ela é perita em robótica.” c) “Ele é responsável pela equipe.” (por + a = pela)",chk:["Usei “apto a”?","Usei “perita em”?","Usei “responsável por” (pela)?"]}
+  ]
+ },
+ {
+  porto:"Ímã 07 · Capítulo 23 · Alvo ou agente?", emoji:"🎯", u:"c23",
+  titulo:"Complemento nominal × adjunto adnominal (e o complemento em forma de oração)",
+  texto:[
+   "Às vezes o complemento nominal é uma <b>oração inteira</b>. Nesse caso, a preposição exigida pelo nome vem <b>antes da oração</b>: “O robô tinha <b>certeza de que</b> deveria obedecer.” Essa oração recebe o nome de <span class='destaque'>oração subordinada substantiva completiva nominal</span>.",
+   "Cuidado: nem todo termo com preposição ligado a um nome é complemento. Existem também os <span class='destaque'>adjuntos adnominais</span>, muitos deles preposicionados, que seguem a regência imposta pelo nome. O livro compara: “Respeito <b>ao</b> robô” → <b>complemento nominal</b>: o robô é o <b>alvo</b> (é ele quem recebe o respeito). “Respeito <b>do</b> robô” → <b>adjunto adnominal</b>: o robô é o <b>agente</b> (é ele quem respeita).",
+   "Na Questão invertida do capítulo, um trecho de reportagem fala da “<b>substituição</b> da mão de obra humana pelos robôs”. O substantivo “substituição” rege dois termos: <span class='rd'>da mão de obra</span> (<b>complemento nominal</b> — o que é substituído) e <span class='rd'>pelos robôs</span> (<b>adjunto adnominal</b> — quem substitui).",
+   "E a escolha da preposição também muda o sentido nos nomes: “preparado <b>por</b>”, “preparado <b>para</b>”, “preparado <b>com</b>” — diferentes preposições, diferentes sentidos. Segundo o livro, a regência nominal tem como regente um nome que sempre terá como complemento um termo preposicionado, e a escolha da preposição depende das regras da gramática normativa e do sentido que se quer transmitir.",
+   "<div class='olhar'><b>Ímã 07:</b> 🎯 o termo é o ALVO da ação → complemento nominal · 🦾 o termo é o AGENTE da ação → adjunto adnominal.</div>"
+  ],
+  perguntas:[
+   {tag:"apl",q:"Diga se o termo entre aspas é complemento nominal ou adjunto adnominal, explicando quem é alvo e quem é agente: a) A defesa “da floresta” é urgente. b) A defesa “do goleiro” salvou o jogo.",modelo:"a) Complemento nominal: a floresta é o alvo, é ela que é defendida. b) Adjunto adnominal: o goleiro é o agente, é ele quem faz a defesa.",chk:["Em (a), disse complemento nominal porque a floresta é o alvo?","Em (b), disse adjunto adnominal porque o goleiro é o agente?"]},
+   {tag:"apl",q:"Crie uma frase com “certeza de que” ou “medo de que” e mostre qual é a oração que completa o nome.",modelo:"Exemplo: “Tenho certeza de que vamos vencer.” A oração “de que vamos vencer” completa o nome “certeza” e vem introduzida pela preposição “de” (é uma oração subordinada substantiva completiva nominal).",chk:["Criei a frase com o nome + “de que”?","Mostrei a oração que completa o nome, começando pela preposição?"]},
+   {tag:"apl",q:"Explique a diferença de sentido entre “um bolo preparado por minha avó” e “um bolo preparado para minha avó”.",modelo:"Com “por”, a avó é quem fez o bolo (indica o agente). Com “para”, o bolo é destinado à avó (indica o destino, quem vai receber). Mudou a preposição, mudou o sentido.",chk:["Disse que “por” mostra quem preparou?","Disse que “para” mostra para quem é o bolo?"]}
+  ]
+ },
+ {
+  porto:"Ímã 08 · Capítulo 24 · Crase", emoji:"💥", u:"c24", parte:"💥 Crase: a fusão de dois “a” (Cap. 24 — A sociedade do amanhã)",
+  titulo:"As três caras do “a” e a fusão chamada crase",
+  texto:[
+   "A palavra “a” pode ter três classificações. <b>Artigo</b>: quando vem antes de um substantivo feminino singular (“Esses serviços reconhecem <b>a</b> fala”). <b>Pronome</b>: quando substitui um nome e equivale a “ela” ou “aquela” (“afetar a nossa sociedade levando-<b>a</b> a índices mais altos” — o “a” é a sociedade). <b>Preposição</b>: quando faz a regência entre verbos, nomes e seus complementos (“tem muito <b>a</b> contribuir”).",
+   "Quando a <b>preposição</b> “a” encontra o <b>artigo</b> “a”, as duas vogais se <b>fundem</b> numa só. Essa fusão se chama <span class='destaque'>crase</span> e é sinalizada pelo <span class='destaque'>acento grave</span> (à). Exemplo do livro: “O sucesso da ficção científica deve-se <b>a a</b> imaginação dos seus autores” — o 1º “a” é a preposição exigida por “dever-se”; o 2º é o artigo de “imaginação”. Com a fusão: “deve-se <b>à</b> imaginação dos seus autores”.",
+   "Por isso a crase é um caso de <b>regência</b> (nominal ou verbal): se o nome ou o verbo <b>não pede</b> complemento com preposição, não há crase. “<b>Admiro a</b> imaginação dos autores” → admiro <b>o quê</b>, e não “a quê”: só existe o artigo, porque “admirar” não rege preposição.",
+   "A fusão também acontece com o pronome demonstrativo: “Fiz alusão <b>às</b> obras do autor” (o nome “alusão” pede “a” + o artigo “as”) e “Refiro-me <b>àquilo</b> tudo que combinamos” (a + aquilo). A Síntese resume: crase é a preposição <b>a</b> + o artigo <b>a</b> ou o pronome <b>aquele/aquela/aquilo</b>, e ocorre toda vez que, por regência, a preposição “a” encontra o artigo “a”.",
+   "<div class='olhar'><b>Curto-circuito:</b> a (preposição) + a (artigo) = <b>à</b>. Sem os dois “a”, não há fusão — e não há acento!</div>"
+  ],
+  perguntas:[
+   {tag:"conc",q:"Explique com as suas palavras o que é crase e por que ela depende da regência.",modelo:"Crase é a junção da preposição “a” com outro “a” (artigo ou o “a” de aquele/aquela/aquilo), marcada pelo acento grave. Depende da regência porque só existe a preposição “a” se o verbo ou o nome pedir; se não pedir, só fica o artigo e não há crase.",chk:["Disse que é a fusão da preposição “a” com o artigo “a” (ou aquele/aquela/aquilo)?","Disse que é marcada pelo acento grave?","Expliquei que só há crase se o verbo/nome pedir a preposição “a”?"]},
+   {tag:"apl",q:"Classifique o “a” em maiúsculo (artigo, pronome ou preposição) e justifique: a) “O robô começou A limpar a casa.” b) “Encontrei a chave e guardei-A na gaveta.” c) “Ela leu A notícia.”",modelo:"a) Preposição: liga o verbo “começou” ao verbo “limpar”. b) Pronome: substitui “a chave” (equivale a “ela”). c) Artigo: vem antes do substantivo feminino “notícia”.",chk:["Classifiquei (a) como preposição?","Classifiquei (b) como pronome?","Classifiquei (c) como artigo?"]},
+   {tag:"apl",q:"Reescreva “Essa técnica dá ao computador a capacidade de raciocinar” trocando “computador” por “máquina” e explique a mudança.",modelo:"“Essa técnica dá à máquina a capacidade de raciocinar.” O verbo “dar” pede a preposição “a” (dar algo a alguém). Com a palavra masculina era a + o = ao; com a feminina fica a + a = à, com acento grave.",chk:["Escrevi “à máquina” com acento grave?","Expliquei que “dar” pede a preposição “a” e “máquina” leva o artigo “a”?"]}
+  ]
+ },
+ {
+  porto:"Ímã 09 · Capítulo 24 · Com ou sem crase", emoji:"🚦", u:"c24",
+  titulo:"Quando NÃO há crase e quando ela é obrigatória",
+  texto:[
+   "Se a palavra depois da preposição <b>não aceita o artigo feminino</b> “a”, não há fusão — logo, <b>não há crase</b>. O livro mostra quatro casos: <b>antes de palavras masculinas</b> (“Falou-me <b>a</b> respeito da entrega dos originais”); <b>antes de verbos</b> (“Começou <b>a</b> imaginar como seria o futuro”); <b>antes de palavras de sentido genérico ou indefinido</b> (“Refiro-me <b>a</b> pessoas sonhadoras”); e <b>entre palavras repetidas</b> (“Estava cara <b>a</b> cara com o futuro”).",
+   "A crase é <span class='destaque'>obrigatória</span>: ao inserir um complemento <b>feminino</b>, expresso ou oculto, que traz a preposição “a” (“Fui <b>à</b> festa dele, e não <b>à</b> sua”); ao juntar a preposição “a” com <b>aquele/aquela/aquilo</b> (“Refiro-me <b>àquilo</b> tudo”); em <b>locuções</b> prepositivas, conjuntivas e adverbiais com substantivo feminino (“Organizou <b>às pressas</b> o evento”, “<b>À medida que</b> os fãs se manifestavam…”); e ao mencionar <b>horas</b> (“das 17h <b>às</b> 23h”).",
+   "No infográfico “<b>Às vésperas do futuro</b>” aparecem vários casos: “está apto <b>a</b> cuidar da casa” (antes de verbo, sem crase) × “destinar-se <b>à</b> companhia de idosos” (destinar-se a + a companhia); “abanava o rabinho <b>à medida que</b> o dono se aproximava” (locução); “útil <b>à</b> realização das tarefas” (o adjetivo “útil” pede “a” + o artigo de “realização”); “conversou com ele <b>às cegas</b>” (locução adverbial).",
+   "No texto de Arthur C. Clarke (<i>A cidade e as estrelas</i>), várias expressões regem “a” sem crase: “reduzi-lo <b>a</b> uma pequeníssima célula”, “pouco sabemos <b>a respeito de</b> nossos ancestrais” (respeito é masculino), “aprender <b>a</b> analisar” (verbo) e “<b>a fim de</b> recriar o original” (fim é masculino).",
+   "<div class='olhar'><b>Semáforo:</b> 🚫 SEM crase: masculino · verbo · palavra genérica · palavras repetidas | ✅ crase OBRIGATÓRIA: feminino que recebe “a” · aquele/aquela/aquilo · locuções com substantivo feminino · horas.</div>"
+  ],
+  perguntas:[
+   {tag:"apl",q:"Explique por que NÃO há crase em cada frase nova: a) “Saiu a cavalo.” b) “Ficamos frente a frente.” c) “Voltou a estudar.”",modelo:"a) “cavalo” é palavra masculina, não aceita o artigo “a”. b) São palavras repetidas (frente a frente). c) “estudar” é verbo, e antes de verbo não há artigo.",chk:["Em (a), disse que é palavra masculina?","Em (b), disse que são palavras repetidas?","Em (c), disse que é antes de verbo?"]},
+   {tag:"apl",q:"Coloque o acento grave onde for necessário e justifique: “A aula de robótica vai das 13h as 15h, e a turma saiu as pressas.”",modelo:"“A aula de robótica vai das 13h às 15h, e a turma saiu às pressas.” “às 15h” leva crase porque indica horas; “às pressas” leva crase porque é locução adverbial com substantivo feminino. O “A” do início é só artigo.",chk:["Acentuei “às 15h” (horas)?","Acentuei “às pressas” (locução com substantivo feminino)?","Deixei sem acento o “A” do começo (só artigo)?"]},
+   {tag:"apl",q:"Na frase “Ela só aspira ao descanso… ou a um novo nascimento”, troque “descanso” por “parada” e “nascimento” por “oportunidade”. Onde aparece crase? Por quê?",modelo:"“Ela só aspira à parada… ou a uma nova oportunidade.” Em “à parada” há crase: “aspirar” pede “a” e “parada” é feminina com artigo “a” (no masculino era “ao descanso”). Em “a uma nova oportunidade” não há crase: no masculino fica “a um”, sem o artigo “o”, então só existe a preposição.",chk:["Escrevi “à parada” com crase?","Escrevi “a uma nova oportunidade” sem crase?","Usei o teste do masculino (ao descanso × a um) para justificar?"]}
+  ]
+ },
+ {
+  porto:"Ímã 10 · Capítulo 24 · Crase opcional e macetes", emoji:"🔧", u:"c24",
+  titulo:"Crase opcional e os três macetes",
+  texto:[
+   "Há expressões em que o artigo é <b>opcional</b>, e por isso a crase também é. <b>Diante de pronomes possessivos com substantivo feminino expresso</b>: “Agradeça <b>a</b> sua mãe” (só a preposição) ou “Agradeça <b>à</b> sua mãe” (preposição + artigo). <b>Diante de nomes próprios femininos</b>: “Entregou o livro <b>a</b> Cristina” ou “<b>à</b> Cristina”. Na Questão invertida, a senhora diz “Voltar <b>à</b> minha época?” — também poderia ser “Voltar para minha época”: não há mudança de sentido, é apenas uma opção de estilo.",
+   "<b>Macete 1 — troque por um masculino.</b> Se, na troca, aparecer “<b>ao</b>”, há preposição + artigo: use o acento. Se aparecer só “o”, não use. “Fui <b>à</b> exposição apreciar os originais” → “Fui <b>ao</b> evento” → há crase.",
+   "<b>Macete 2 — teste outra preposição</b> (“de”, “em”, “por”). Se aparecer o artigo junto (“da”, “na”, “pela”), use o acento; se aparecer só a preposição, não use. “Voltei <b>da</b> exposição” (e não “de exposição”) → há crase. <b>Macete 3 — troque “a” por “para”.</b> Se aparecer “<b>para a</b>”, há crase; se aparecer só “para”, não há. “Fui <b>para a</b> exposição” → há crase.",
+   "Os macetes também resolvem nomes de lugares. Num exercício do livro com vários destinos, use o macete 2: “volto <b>de</b> Goiás”, “volto <b>de</b> Florianópolis”, “volto <b>de</b> Porto Velho” (só preposição → <b>sem</b> crase), mas “volto <b>da</b> capital paulista” (preposição + artigo → “Íamos <b>à</b> capital paulista”).",
+   "<div class='olhar'><b>Os 3 testes da fusão:</b> masculino (aparece “ao”?) · outra preposição (aparece “da/na/pela”?) · “para” (aparece “para a”?). Se o artigo aparecer, a crase aparece.</div>"
+  ],
+  perguntas:[
+   {tag:"apl",q:"Use o macete do masculino para decidir se há crase e explique: a) “Entreguei o trabalho ___ coordenadora.” b) “Ele começou ___ correr.”",modelo:"a) “à coordenadora” — no masculino ficaria “ao coordenador”, então há preposição + artigo: crase. b) “a correr” — antes de verbo não há artigo (não aparece “ao”), então não há crase.",chk:["Usei “à” em (a) e justifiquei com “ao coordenador”?","Usei “a” sem acento em (b) porque vem antes de verbo?"]},
+   {tag:"apl",q:"Use o macete da preposição “de” para decidir: “Vou ___ Bahia” e “Vou ___ Curitiba”. Explique.",modelo:"“Vou à Bahia”, porque “volto da Bahia” (aparece o artigo junto da preposição). “Vou a Curitiba”, porque “volto de Curitiba” (aparece só a preposição, sem artigo).",chk:["Escrevi “à Bahia” e justifiquei com “da Bahia”?","Escrevi “a Curitiba” e justifiquei com “de Curitiba”?"]},
+   {tag:"apl",q:"Por que “Agradeça a sua mãe” e “Agradeça à sua mãe” estão ambas corretas, mas “Agradeça à seu pai” está errada?",modelo:"Diante de pronome possessivo com substantivo feminino, o artigo é opcional, então a crase também é. “Seu pai” é masculino: não aceita o artigo “a”, então não pode haver crase (o correto é “a seu pai” ou “ao seu pai”).",chk:["Expliquei que diante de possessivo feminino a crase é opcional?","Expliquei que “pai” é masculino e por isso não pode ter crase?"]}
+  ]
+ }
+];
+
+
+/* ====== ESTADO E PERSISTÊNCIA ====== */
+var CHAVE=KIT+'_leitura_v1';
+var mem={};
+var estado=carregar();
+
+function carregar(){
+  try{ var s=localStorage.getItem(CHAVE); if(s) return JSON.parse(s); }catch(e){ if(mem[CHAVE]) return JSON.parse(mem[CHAVE]); }
+  return {blocos:{}};
+}
+function calcProgresso(){
+  var conf=0, chkPend=0;
+  BLOCOS.forEach(function(bloco,i){
+    var b=estado.blocos[i]; if(!b||!b.conferido) return; conf++;
+    bloco.perguntas.forEach(function(p,j){ var ep=(b.perguntas&&b.perguntas[j])||{chk:{}}; p.chk.forEach(function(pt,k){ if(!ep.chk||!ep.chk[k]) chkPend++; }); });
+  });
+  estado.progresso={conferidos:conf,total:BLOCOS.length,chkPendentes:chkPend};
+  if(conf===BLOCOS.length && chkPend===0){ if(!estado.concluido){ estado.concluido=true; estado.concluidoEm=new Date().toISOString(); } }
+  return estado.progresso;
+}
+function salvar(){
+  calcProgresso();
+  var s=JSON.stringify(estado);
+  try{ localStorage.setItem(CHAVE,s); }catch(e){ mem[CHAVE]=s; }
+  var d=new Date();
+  document.getElementById('salvo').textContent='💾 Salvo às '+d.toLocaleTimeString('pt-BR')+' de '+d.toLocaleDateString('pt-BR');
+  atualizarTrilhaFim();
+}
+function atualizarTrilhaFim(){
+  var p=estado.progresso||calcProgresso();
+  var box=document.getElementById('trilha-fim'), txt=document.getElementById('trilha-fim-txt'), btn=document.getElementById('btn-prox');
+  var h3=box.querySelector('h3');
+  if(estado.concluido||trilhaLiberada()){
+    h3.textContent='✅ Leitura concluída — Quiz destravado!';
+    txt.textContent=estado.concluido?'Você conferiu os '+BLOCOS.length+' ímãs e respondeu a autoavaliação. Agora teste o que aprendeu.':'Trilha liberada pelos pais.';
+    btn.classList.remove('off');
+  } else {
+    h3.textContent='🔒 Próxima etapa: Quiz';
+    var faltam=p.total-p.conferidos;
+    txt.textContent=faltam>0 ? 'Destrava quando você conferir os '+p.total+' ímãs (faltam '+faltam+').' : 'Falta responder a autoavaliação Sim/Não de '+p.chkPendentes+' ponto(s) para destravar.';
+    btn.classList.add('off');
+  }
+  marcarNav();
+}
+function estBloco(i){ if(!estado.blocos[i]) estado.blocos[i]={aberto:i===0,conferido:false,perguntas:{}}; return estado.blocos[i]; }
+function estPerg(i,j){ var b=estBloco(i); if(!b.perguntas[j]) b.perguntas[j]={resp:'',warned:false,red:false,tentou:'',chk:{}}; return b.perguntas[j]; }
+
+/* ====== ANTICÓPIA (motor validado — Português 7º, 08/10/2026) ====== */
+function normPal(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/<[^>]*>/g,' ').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim().split(' ').filter(Boolean);
+}
+function maiorRun(aw,bw){
+  var bStr=' '+bw.join(' ')+' ', best=0;
+  for(var i=0;i<aw.length;i++){
+    for(var len=aw.length-i; len>0; len--){
+      var sub=aw.slice(i,i+len).join(' ');
+      if(bStr.indexOf(' '+sub+' ')>=0){ if(len>best)best=len; break; }
+    }
+  }
+  return best;
+}
+function cobertoPorRuns(aw,bw,minRun){
+  var bStr=' '+bw.join(' ')+' ', cov=new Array(aw.length).fill(false);
+  for(var i=0;i<aw.length;i++){
+    for(var len=aw.length-i; len>=minRun; len--){
+      var sub=aw.slice(i,i+len).join(' ');
+      if(bStr.indexOf(' '+sub+' ')>=0){ for(var k=i;k<i+len;k++)cov[k]=true; break; }
+    }
+  }
+  return cov.filter(Boolean).length;
+}
+function ehCopia(resp, textoBloco, pergunta){
+  var a=normPal(resp), src=normPal(textoBloco), q=normPal(pergunta);
+  if(a.length<5) return false;
+  var qStr=' '+q.join(' ')+' ', keep=new Array(a.length).fill(true);
+  for(var i=0;i<a.length;i++){
+    for(var len=a.length-i; len>=4; len--){
+      var sub=a.slice(i,i+len).join(' ');
+      if(qStr.indexOf(' '+sub+' ')>=0){ for(var k=i;k<i+len;k++)keep[k]=false; break; }
+    }
+  }
+  var af=a.filter(function(w,idx){return keep[idx];});
+  if(af.length<5) return false;
+  var run=maiorRun(af,src);
+  var cov=cobertoPorRuns(af,src,5);
+  var ratio=cov/af.length;
+  return run>=8 || ratio>0.6;
+}
+
+/* ====== RENDER ====== */
+function textoPlano(bloco){ return bloco.texto.join(' '); }
+function irBloco(i){ var el=document.getElementById('bloco'+i); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+function render(){
+  var cont=document.getElementById('blocos'); cont.innerHTML='';
+  BLOCOS.forEach(function(bloco,i){
+    var b=estBloco(i);
+    if(bloco.parte){ var pt=document.createElement('div'); pt.className='parte '+bloco.u; pt.textContent=bloco.parte; cont.appendChild(pt); }
+    var div=document.createElement('div'); div.className='bloco '+bloco.u+(b.aberto?'':' travado'); div.id='bloco'+i;
+    var html='<div class="bloco-cab"><div class="num">'+(i+1)+'</div><div><div class="porto">'+bloco.porto+'</div><h3>'+bloco.emoji+' '+bloco.titulo+'</h3></div></div>';
+    if(!b.aberto){
+      html+='<div class="cadeado">🔒 Este ímã abre quando você conferir o ímã anterior.</div>';
+      div.innerHTML=html; cont.appendChild(div); return;
+    }
+    html+='<div class="bloco-corpo"><div class="texto">';
+    bloco.texto.forEach(function(p){ html+= (p.indexOf('<div')===0 || p.indexOf('<ul')===0 ? p : '<p>'+p+'</p>'); });
+    html+='</div>';
+    bloco.perguntas.forEach(function(p,j){
+      var ep=estPerg(i,j);
+      var tagTxt=p.tag==='conc'?'Conceito':'Aplicação';
+      html+='<div class="perg'+(ep.red?' red':'')+'" id="perg'+i+'_'+j+'">';
+      html+='<span class="tag '+p.tag+'">'+tagTxt+'</span>';
+      html+='<label>'+(j+1)+'. '+p.q+'</label>';
+      html+='<textarea id="ta'+i+'_'+j+'" oninput="digitou('+i+','+j+')">'+(ep.resp||'').replace(/</g,'&lt;')+'</textarea>';
+      html+='<div class="aviso" id="av'+i+'_'+j+'"></div>';
+      html+='<div class="modelo" id="mod'+i+'_'+j+'"><span class="lab">Resposta-modelo</span><p>'+p.modelo+'</p>';
+      html+='<div class="chk" id="chk'+i+'_'+j+'"></div></div>';
+      html+='</div>';
+    });
+    html+='<button class="conferir" id="conf'+i+'" onclick="conferir('+i+')">✔️ Conferir este ímã</button>';
+    html+='<div class="status-bloco" id="st'+i+'"></div>';
+    if(i<BLOCOS.length-1){ html+='<div class="prox" id="px'+i+'"></div>'; }
+    html+='</div>';
+    div.innerHTML=html;
+    cont.appendChild(div);
+  });
+  BLOCOS.forEach(function(bloco,i){
+    var b=estBloco(i);
+    if(b.aberto && b.conferido){ mostrarConferido(i); }
+    atualizarBotao(i);
+  });
+  atualizarRelatorio();
+  atualizarTrilhaFim();
+}
+
+function digitou(i,j){
+  var ep=estPerg(i,j);
+  ep.resp=document.getElementById('ta'+i+'_'+j).value;
+  if(ep.red){
+    var bloco=BLOCOS[i];
+    if(!ehCopia(ep.resp, textoPlano(bloco), bloco.perguntas[j].q)){
+      ep.red=false;
+      var pd=document.getElementById('perg'+i+'_'+j); if(pd) pd.classList.remove('red');
+      var av=document.getElementById('av'+i+'_'+j); if(av){av.className='aviso'; av.textContent='';}
+    }
+  }
+  atualizarBotao(i);
+  salvar();
+  atualizarRelatorio();
+}
+
+function atualizarBotao(i){
+  var b=estBloco(i); if(!b.aberto) return;
+  var btn=document.getElementById('conf'+i); if(!btn) return;
+  if(b.conferido){ btn.textContent='✔️ Ímã conferido'; btn.disabled=true; return; }
+  var todas=true;
+  BLOCOS[i].perguntas.forEach(function(p,j){
+    var v=(document.getElementById('ta'+i+'_'+j)||{}).value||estPerg(i,j).resp||'';
+    if(v.trim().length<3) todas=false;
+  });
+  btn.disabled=!todas;
+}
+
+function conferir(i){
+  var bloco=BLOCOS[i], b=estBloco(i);
+  var algumBloqueado=false;
+  bloco.perguntas.forEach(function(p,j){
+    var ep=estPerg(i,j);
+    ep.resp=document.getElementById('ta'+i+'_'+j).value;
+    var av=document.getElementById('av'+i+'_'+j);
+    var copia=ehCopia(ep.resp, textoPlano(bloco), p.q);
+    if(copia){
+      if(!ep.warned || ep.resp===ep.tentou){
+        if(!ep.warned){ ep.warned=true; ep.tentou=ep.resp; }
+        av.className='aviso amarelo';
+        av.innerHTML='✋ Boa parte da sua resposta está igual ao texto. Tente <b>reescrever com as suas palavras</b> — explique como se fosse para um amigo, sem olhar o texto. Pode ficar mais curto e simples: o que vale é ser <b>SEU</b>.';
+        algumBloqueado=true;
+      } else {
+        ep.red=true;
+        av.className='aviso vermelho';
+        av.innerHTML='🔴 Esta resposta continua muito parecida com o texto. Ela foi aceita, mas ficou marcada para revisar. Se reescrever com as suas palavras, a marca some.';
+        document.getElementById('perg'+i+'_'+j).classList.add('red');
+      }
+    } else {
+      ep.red=false;
+      if(av){ av.className='aviso'; av.textContent=''; }
+      var pd=document.getElementById('perg'+i+'_'+j); if(pd) pd.classList.remove('red');
+    }
+  });
+  salvar();
+  if(algumBloqueado){
+    document.getElementById('st'+i).innerHTML='<span style="color:var(--ouro)">✍️ Reescreva as respostas marcadas em amarelo (mude o que escreveu) e clique em Conferir de novo.</span>';
+    return;
+  }
+  b.conferido=true;
+  if(i<BLOCOS.length-1){ estBloco(i+1).aberto=true; }
+  salvar();
+  render();
+  var alvo=document.getElementById('bloco'+i);
+  if(alvo) alvo.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function mostrarConferido(i){
+  var bloco=BLOCOS[i];
+  bloco.perguntas.forEach(function(p,j){
+    var ep=estPerg(i,j);
+    var mod=document.getElementById('mod'+i+'_'+j); if(mod) mod.classList.add('show');
+    if(ep.red){ var pd=document.getElementById('perg'+i+'_'+j); if(pd) pd.classList.add('red');
+      var av=document.getElementById('av'+i+'_'+j); if(av){av.className='aviso vermelho'; av.innerHTML='🔴 Resposta marcada para revisar (muito parecida com o texto). Reescreva com as suas palavras para tirar a marca.';}
+    }
+    var chk=document.getElementById('chk'+i+'_'+j); if(chk){
+      var h='<b style="font-size:.8rem;color:#8fe8c0">Confira você: a sua resposta…</b>';
+      p.chk.forEach(function(pt,k){
+        var val=ep.chk[k]||'';
+        h+='<div class="item"><span>'+pt+'</span><span class="simnao">'
+         +'<button class="sim'+(val==='sim'?' ativo':'')+'" onclick="marcarChk('+i+','+j+','+k+',\'sim\')">Sim</button>'
+         +'<button class="nao'+(val==='nao'?' ativo':'')+'" onclick="marcarChk('+i+','+j+','+k+',\'nao\')">Não</button>'
+         +'</span></div>';
+      });
+      chk.innerHTML=h;
+    }
+  });
+  atualizarStatusBloco(i);
+  var btn=document.getElementById('conf'+i); if(btn){ btn.textContent='✔️ Ímã conferido'; btn.disabled=true; }
+  if(i<BLOCOS.length-1){
+    var px=document.getElementById('px'+i);
+    if(px) px.innerHTML='<a href="#bloco'+(i+1)+'" onclick="irBloco('+(i+1)+');return false;">➡️ Ir para o próximo ímã</a>';
+  }
+}
+
+function marcarChk(i,j,k,val){
+  var ep=estPerg(i,j); ep.chk[k]=val;
+  salvar(); mostrarConferido(i); atualizarStatusBloco(i); atualizarRelatorio();
+}
+
+function statusPergunta(i,j){
+  var ep=estPerg(i,j), p=BLOCOS[i].perguntas[j];
+  if(ep.red) return 'revisar';
+  var temNao=false, todasResp=true;
+  p.chk.forEach(function(pt,k){ if(ep.chk[k]==='nao') temNao=true; if(!ep.chk[k]) todasResp=false; });
+  if(temNao) return 'revisar';
+  if(!todasResp) return 'pendente';
+  return 'ok';
+}
+function atualizarStatusBloco(i){
+  var st=document.getElementById('st'+i); if(!st) return;
+  var revisar=false, pendente=false;
+  BLOCOS[i].perguntas.forEach(function(p,j){ var s=statusPergunta(i,j); if(s==='revisar')revisar=true; if(s==='pendente')pendente=true; });
+  if(revisar) st.innerHTML='<span style="color:#ffb3b3">🔁 Este ímã tem pontos para revisar.</span>';
+  else if(pendente) st.innerHTML='<span style="color:var(--ouro)">📝 Responda a autoavaliação (Sim/Não) de cada pergunta.</span>';
+  else st.innerHTML='<span style="color:#8fe8c0">✅ Ímã concluído com sucesso!</span>';
+  atualizarRelatorio();
+}
+
+function atualizarRelatorio(){
+  var lista=[], totalConf=0, totalRed=0, totalNao=0;
+  BLOCOS.forEach(function(bloco,i){
+    var b=estBloco(i); if(!b.conferido) return; totalConf++;
+    bloco.perguntas.forEach(function(p,j){
+      var ep=estPerg(i,j);
+      if(ep.red){ totalRed++; lista.push('Ímã '+(i+1)+' ('+bloco.titulo+'): pergunta '+(j+1)+' — resposta muito parecida com o texto.'); }
+      p.chk.forEach(function(pt,k){ if(ep.chk[k]==='nao'){ totalNao++; lista.push('Ímã '+(i+1)+' ('+bloco.titulo+'): revisar — “'+pt+'”'); } });
+    });
+  });
+  var rev=document.getElementById('revisar'), rl=document.getElementById('revisar-lista');
+  if(lista.length){ rev.style.display='block'; rl.innerHTML=lista.map(function(x){return '<li>'+x+'</li>';}).join(''); }
+  else { rev.style.display='none'; rl.innerHTML=''; }
+  var rc=document.getElementById('rel-conteudo');
+  rc.innerHTML='<b>Ímãs conferidos:</b> '+totalConf+' de '+BLOCOS.length+'.<br>'
+    +'<b>Respostas marcadas (muito parecidas com o texto):</b> '+totalRed+'.<br>'
+    +'<b>Pontos marcados como “Não” na autoavaliação:</b> '+totalNao+'.<br>'
+    +(lista.length? '<span style="color:#ffb3b3">Há '+lista.length+' ponto(s) para revisar (lista acima).</span>' : '<span style="color:#8fe8c0">Sem pontos pendentes para revisar. 👏</span>');
+}
+
+/* ====== EXPORTAR / IMPORTAR / ZERAR ====== */
+function exportar(){
+  var dados=JSON.stringify(estado,null,2);
+  var blob=new Blob([dados],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='leitura-guiada_ima-das-palavras.json'; a.click();
+}
+function importar(ev){
+  var f=ev.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){ try{ estado=JSON.parse(r.result); salvar(); render(); mostrarModal('✅ Progresso importado!',false); }catch(e){ mostrarModal('❌ Arquivo inválido.',false); } };
+  r.readAsText(f);
+}
+var acaoZerar=null;
+function pedirZerar(){ acaoZerar=true; mostrarModal('Tem certeza que quer apagar TODO o progresso desta leitura? (O Quiz continua destravado se já tiver sido destravado.)',true); }
+function mostrarModal(txt,confirmar){
+  document.getElementById('modal-txt').innerHTML=txt;
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modal-cancel').style.display=confirmar?'inline-block':'none';
+  document.getElementById('modal-ok').textContent=confirmar?'Sim, apagar':'Ok';
+  document.getElementById('modal-ok').onclick=function(){ if(confirmar && acaoZerar){ var c=estado.concluido, ce=estado.concluidoEm; estado={blocos:{}}; if(c){estado.concluido=true; estado.concluidoEm=ce;} salvar(); render(); } acaoZerar=null; fecharModal(); };
+}
+function fecharModal(){ document.getElementById('modal').classList.remove('show'); }
+
+render();
+
+</script>
+</body>
+</html>
